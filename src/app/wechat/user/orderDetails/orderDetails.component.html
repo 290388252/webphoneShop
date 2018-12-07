@@ -1,0 +1,103 @@
+<div class="containers">
+  <div class="guide">
+    <span (click)="goTo()" class="guideIcon"><i class="anticon anticon-left"></i></span>
+    我的订单
+  </div>
+  <div class="content" *ngIf="id === 1">
+    <div class="order" *ngFor="let item of list">
+      <div class="orderNum">
+        <span style="margin-left: 10px;font-size: 12px;">订单号：{{item.payCode}}</span>
+      </div>
+      <div class="orderGoods" *ngFor="let items of item.itemList" [hidden]="!item.itemList">
+        <div class="orderImg">
+          <img style="width: 80px;height: 80px;" [src]="imgUrl+items.pic">
+        </div>
+        <div class="orderCont">
+          <div class="order_GoodsName">
+            {{items.itemName}}
+            <span class="order_GoodsPrice">¥{{items.price}}</span>
+          </div>
+          <div class="order_GoodsNum">数量:{{items.num}}</div>
+        </div>
+      </div>
+      <div class="orderDetails">
+        <div class="orderDetails_l">
+          <div class="orderDetails_l_in">下单时间</div>
+          <div class="orderDetails_l_in">订单状态</div>
+          <div class="orderDetails_l_in">实付款</div>
+        </div>
+        <div class="orderDetails_r">
+          <div class="orderDetails_r_in">{{item.createTime}}</div>
+          <div class="orderDetails_r_in">{{item.stateName}}</div>
+          <div class="orderDetails_r_in">¥{{item.totalPrice}}</div>
+        </div>
+      </div>
+      <!--<div class="unPay" *ngIf="item.stateName === '未支付'">-->
+      <!--<img src="../../../../../assets/icon/payIcon.png" class="unPay_img" (click)="pay(item)">-->
+      <!--</div>-->
+      <div class="unPay">
+        <div class="refund-btn" (click)="applyRefund(item)" *ngIf="item.stateName === '已支付'">申请退款</div>
+        <div class="unPay_img" (click)="pay(item)" *ngIf="item.stateName === '未支付'">去支付</div>
+        <div class="details" (click)="detail(item.payCode)">查看详情</div>
+        <!--<img src="../../../../../assets/icon/payIcon.png" class="unPay_img" (click)="pay(item)">-->
+      </div>
+    </div>
+    <div class="footer">到底了~</div>
+  </div>
+  <div class="applyRefund" *ngIf="id === 3">
+    <div class="order-style">
+      <div class="order-layout" *ngFor="let item of orderItemList">
+        <div class="left order-img">
+          <img style="width: 80px;height: 80px; display: block" [src]="imgUrl+item.pic">
+        </div>
+        <div class="left order-detail">
+        <span class="span-style name-style" style="">
+          {{item.itemName}}
+        </span>
+          <span style="font-size: 12px;">产品数量：{{item.num}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="refund-select">
+      <div class="left">
+        <span class="span-style">退款金额：<span style="color: #3E85FF; font-size: 16px;">￥
+          <input type="text" [(ngModel)]="refundPrice" style="border: none;">
+        </span>
+        </span>
+      </div>
+      <div class="right">
+        <span style="font-size: 12px;">最多￥{{maxPrice}}</span>
+      </div>
+      <div class="clear-fix"></div>
+    </div>
+    <div class="refund-info">
+      <span class="span-style">退款原因：</span>
+      <textarea name="more" class="text-style" [(ngModel)]="refundReason"
+                placeholder="请您详细的填写退款说明，10-170个字，以便客服为您尽快处理"></textarea>
+    </div>
+
+    <div class="footer-btn">
+      <button nz-button class="but-style" (click)="applySubmit()">提交</button>
+    </div>
+  </div>
+  <div class="js_dialog" id="androidDialog2" [class]="detailVisible ? 'mask-visible' : 'mask-invisible'">
+    <div class="weui-mask"></div>
+    <div class="weui-dialog weui-skin_android">
+      <div class="weui-dialog__bd">
+        <span>门号:{{doorNO}}</span>
+        <br>
+        <br>
+        <span>购买数量:{{num}}</span>
+        <br>
+        <br>
+        <span>开门时间:{{openedTime}}</span>
+        <br>
+        <br>
+        <span>关门时间:{{closedTime}}</span>
+      </div>
+      <div class="weui-dialog__ft">
+        <a (click)="closeDetail()" href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">关闭</a>
+      </div>
+    </div>
+  </div>
+</div>

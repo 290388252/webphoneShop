@@ -1,0 +1,91 @@
+<div class="user-container">
+  <div class="guide">
+    <span (click)="goTo()" class="guideIcon"><i class="anticon anticon-left"></i></span>
+    提水券
+  </div>
+  <ul class="menu-top" nz-menu [nzMode]="'horizontal'">
+    <li (click)="choose(1)" class="menu-li" nz-menu-item [nzSelected]="true">未使用</li>
+    <li (click)="choose(2)" class="menu-li" nz-menu-item>已使用</li>
+    <li (click)="choose(3)" class="menu-li" nz-menu-item>已过期</li>
+  </ul>
+  <div *ngIf="empty" class="none">
+    <img style="width: 35%;margin-bottom: 5px" src="../../../../../assets/icon/wrong.png" alt="">
+    <h4>空空如也~</h4>
+  </div>
+  <!--未使用-->
+  <div *ngIf="effective" class="layout">
+    <div class="couponOut" [hidden]="!effectiveList" *ngFor="let item of effectiveList;let i = index;">
+      <div style=" width: 100%;height: 90px;position: relative;">
+        <div class="couponImg couponUrlA">
+          提水券
+        </div>
+        <div class="coupon_cont">
+          <div class="coupon_name">
+            <!--机器-->
+            <img src="../../../../../assets/icon/couponMa.png" class="coupon_nameImg">
+            {{item.carryName}}
+            <span
+              style="position: absolute;right: -16px;top: 26px;color: #333333">&times;{{item.surplusQuantity}}</span>
+          </div>
+          <span class="coupon_time">{{toDate(item.startTime)}}-{{toDate(item.endTime)}}</span>
+        </div>
+      </div>
+      <div class="immediateUse">
+        <span (click)="openInstructions(i)">使用说明</span>
+        <span [hidden]="!item.isShow" class="turnIcon"><i class="anticon anticon-up"></i></span>
+        <span [hidden]="item.isShow" class="turnIcon"><i class="anticon anticon-down"></i></span>
+      </div>
+      <div class="immediateUse_use" [hidden]="item.isShow">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{item.remark}}
+      </div>
+    </div>
+    <div class="footer">
+      已经到底~
+    </div>
+  </div>
+  <!--已过期-->
+  <div *ngIf="overDue" class="layout">
+    <div class="couponOut" [hidden]="!overDueList" *ngFor="let item of overDueList">
+      <div style=" width: 100%;height: 90px;position: relative;">
+        <div class="couponImg couponUrlNone">
+          提水券
+        </div>
+        <div class="coupon_cont">
+          <div class="coupon_name">
+            <!--机器-->
+            <img src="../../../../../assets/icon/overDueVm.png" class="coupon_nameImg">
+            {{item.carryName}}
+            <span
+              style="position: absolute;right: -16px;top: 26px;color: #333333">&times;{{item.surplusQuantity}}</span>
+          </div>
+          <span class="coupon_time">{{toDate(item.startTime)}}-{{toDate(item.endTime)}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      已经到底~
+    </div>
+  </div>
+  <!--已使用-->
+  <div *ngIf="used" class="layout">
+    <div class="couponOut" [hidden]="!usedList" *ngFor="let item of usedList">
+      <div style=" width: 100%;height: 90px;position: relative;">
+        <div class="couponImg couponUrlNone">
+          提水券
+        </div>
+        <div class="coupon_cont">
+          <div class="coupon_name">
+            <!--机器-->
+            <img src="../../../../../assets/icon/overDueVm.png" class="coupon_nameImg">
+            {{item.carryName}}
+            <span style="position: absolute;right: -16px;top: 26px;color: #333333">&times;{{item.useQuantity}}</span>
+          </div>
+          <span class="coupon_time">{{toDate(item.startTime)}}-{{toDate(item.endTime)}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      已经到底~
+    </div>
+  </div>
+</div>

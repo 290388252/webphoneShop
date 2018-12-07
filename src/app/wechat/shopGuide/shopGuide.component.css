@@ -1,0 +1,43 @@
+.user-container {
+  height: 100%;
+  width: 100%;
+  background: #ffffff;
+  padding-bottom: 59px;
+}
+
+.guide {
+  width: 100%;
+  height: 34px;
+  line-height: 34px;
+  background: white;
+  font-size: 14px;
+  color: grey;
+  text-align: center;
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+  border-bottom: 2px solid #f3f3f3;
+}
+
+.guideIcon {
+  position: absolute;
+  left:10px;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.guideGif {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.guideGif img {
+  background: url("../../../assets/icon/faultButton.png");
+  background-size: 100% 100%;
+  width: 100%;
+}
+.carousel-inner img {
+  width: 100%;
+  height: 100%;
+}

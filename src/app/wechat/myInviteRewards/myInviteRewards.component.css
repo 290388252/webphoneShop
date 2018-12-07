@@ -1,0 +1,12 @@
+.content{
+  background: #f3f3f3;
+  padding-bottom: 80px;
+  min-height: 100%;
+}
+.item{
+  border: 1px solid #c3c3c3;
+  border-radius: 3px;
+  margin: 8px;
+  padding: 5px;
+  background: white;
+}

@@ -1,0 +1,48 @@
+<div class="user-container">
+  <div class="guide">
+  <span (click)="goTo()" class="guideIcon"><i class="anticon anticon-left"></i></span>
+  故障申报
+</div>
+  <div class="faultType">
+    <span class="faultType_text">故障类型:</span>
+    <div class="faultType_select">
+      <nz-select style="display: block" [(ngModel)]="suggestionType">
+        <nz-option nzValue='' nzLabel="请选择投诉类型"></nz-option>
+        <nz-option nzValue="1" nzLabel="扣错款"></nz-option>
+        <nz-option nzValue="2" nzLabel="未扣款"></nz-option>
+        <nz-option nzValue="3" nzLabel="门打不开"></nz-option>
+        <nz-option nzValue="4" nzLabel="没有商品"></nz-option>
+        <nz-option nzValue="5" nzLabel="货物过期"></nz-option>
+        <nz-option nzValue="6" nzLabel="货物破损"></nz-option>
+        <nz-option nzValue="7" nzLabel="其他"></nz-option>
+      </nz-select>
+    </div>
+  </div>
+  <div class="faultContent">
+    <span class="faultContent_title">问题描述:<span
+      style="font-size: 12px;color: grey;margin-left: 10px;">(选填)</span></span>
+    <textarea rows="3" cols="20" oninput="if(value.length>100)value=value.slice(0,100);"
+              onafterpaste="if(value.length>100)value=value.slice(0,100)"
+              [(ngModel)]="userSuggestion" placeholder="亲,说说故障,美中不足的地方,让我们更加清晰的知道问题,100字范围内描述。"></textarea>
+  </div>
+  <div class="faultPic">
+    <span class="faultContent_title">上传凭证:<span
+      style="font-size: 12px;color: grey;margin-left: 10px;">(最多一张)</span></span>
+    <div class="faultPic_cont">
+      <!--<a href="javascript:;" [class]="newImg ? 'file' : 'fileA'">-->
+      <a href="javascript:;" class="file" id="faultImg">
+        <input type="file" name="mPic" id="mPic" ng2FileSelect [uploader]="uploaderAdd"capture="camera" accept="image/*"
+               (change)="uploadAdd($event)">
+      </a>
+      <div class="faultPic_in" *ngIf="imgShow">
+        <nz-spin [nzSpinning]="isSpinning" style="display: inline-block !important;" *ngIf="loading"></nz-spin>
+        <img [src]=suggestionImg+mPic class="faultPic_img" *ngIf="!loading">
+      </div>
+    </div>
+
+  </div>
+  <div class="faultSumit">
+    <button type="button" (click)="submitSuggestion()" [disabled]="disable"></button>
+  </div>
+</div>
+
