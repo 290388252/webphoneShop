@@ -67,6 +67,7 @@ export class MyDeclarationComponent implements OnInit {
                   this.getData(this.cursor);
                 } else {
                   alert(data2.message);
+                  window.location.href = 'tel://4008858203';
                 }
               },
               error2 => {
