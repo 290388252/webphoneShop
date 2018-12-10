@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import {AppService} from '../../app-service';
 import {AppProperties} from '../../app.properties';
 import {getToken, urlParse} from '../../utils/util';
@@ -9,18 +9,24 @@ import {Router} from '@angular/router';
   templateUrl: './myDeclaration.component.html',
   styleUrls: ['./myDeclaration.component.css']
 })
-export class MyDeclarationComponent implements OnInit {
+export class MyDeclarationComponent implements OnInit, OnDestroy {
   public token;
   public cursor = 2;
   public declarationList = [];
   public imgUrl;
+  public timer;
+  public detailList = [];
+  public complainIdsList = [];
 
   constructor(private appProperties: AppProperties,
               private appService: AppService,
               private router: Router) {
     this.imgUrl = this.appProperties.adminUrl + '/complainImg/';
   }
-
+  ngOnDestroy() {
+    clearInterval(this.timer);
+    console.log('注销故障申报时停止定时刷新！');
+  }
   ngOnInit() {
     this.token = getToken();
     this.getData(this.cursor);
@@ -32,13 +38,33 @@ export class MyDeclarationComponent implements OnInit {
     } else {
       val = state;
     }
-    this.appService.postAliData(this.appProperties.tblCustomerMyDeclaration, {state: val}, this.token).subscribe(
+    clearInterval(this.timer);
+    this.appService.postAliData(this.appProperties.tblCustomerMyDeclaration, {
+      state: val
+    }, this.token).subscribe(
       data => {
-        console.log(data);
         this.declarationList = data.returnObject;
+        this.detailList = [];
+        this.complainIdsList = [];
         this.declarationList.forEach(item => {
+          this.complainIdsList.push(item.id);
+          this.detailList.push(item.list);
           item.contentText = '';
         });
+        console.log(this.detailList);
+        console.log(this.complainIdsList);
+        this.timer = setInterval(() => {
+          this.appService.postFormData(this.appProperties.tblCustomerComplainReplyDetails, {
+            complainIds: this.complainIdsList
+          }, this.token).subscribe(
+            data1 => {
+              this.detailList = data1.returnObject;
+              console.log(this.detailList);
+            },
+            error1 => {
+              console.log(error1);
+            });
+        }, 360000);
       },
       error => {
         console.log(error);
@@ -51,10 +77,14 @@ export class MyDeclarationComponent implements OnInit {
   ask(num) {
     /*console.log(list);*/
     if (this.declarationList[num].contentText !== '') {
-      this.appService.postFormData(this.appProperties.tblCustomerComplainReplyIsReplyUrl, {complainId: this.declarationList[num].id}, this.token).subscribe(
+      /*判断用户是否提问三次*/
+      this.appService.postFormData(this.appProperties.tblCustomerComplainReplyIsReplyUrl, {
+        complainId: this.declarationList[num].id
+      }, this.token).subscribe(
         data => {
           console.log(data);
           if (data.status === 1) {
+            /*继续提问*/
             this.appService.postAliData(this.appProperties.tblCustomerComplainReplyAddUrl, {
               complainId: this.declarationList[num].id,
               content: this.declarationList[num].contentText,
@@ -67,7 +97,6 @@ export class MyDeclarationComponent implements OnInit {
                   this.getData(this.cursor);
                 } else {
                   alert(data2.message);
-                  window.location.href = 'tel://4008858203';
                 }
               },
               error2 => {
@@ -76,6 +105,7 @@ export class MyDeclarationComponent implements OnInit {
             );
           } else {
             alert(data.message);
+            window.location.href = 'tel://4008858203';
           }
         },
         error => {

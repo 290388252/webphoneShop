@@ -455,7 +455,7 @@ export class MainComponent implements OnInit {
       const u = navigator.userAgent, app = navigator.appVersion;
       const isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
       if (isIOS) {
-        // window.location.href = 'http://sms.youshuidaojia.com:9800/scan';
+        window.location.href = 'http://sms.youshuidaojia.com:9800/scan';
         this.url = sessionStorage.getItem('url');
       } else {
         this.url = window.location.href;

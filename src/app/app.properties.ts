@@ -37,15 +37,17 @@ export class AppProperties {
   public tblCustomerMyDeclaration: string;
   public tblCustomerComplainReplyIsReplyUrl: string;
   public tblCustomerComplainReplyAddUrl: string;
+  public tblCustomerComplainReplyDetails: string
   public shopPrepaidAddUrl: string;
   public shopPrepaidBuyUrl: string;
   public alipayWapPayUrl: string;
 
   constructor() {
     // Public
-    // this.appUrl = 'http://47.106.92.82:6662/ys_sms';
-    this.appUrl = 'http://192.168.0.106:6662/ys_sms';
+    this.appUrl = 'http://47.106.92.82:6662/ys_sms';
+    // this.appUrl = 'http://192.168.0.106:6662/ys_sms';
     this.adminUrl = 'http://119.23.233.123:6662/ys_admin';
+    // this.adminUrl = 'http://192.168.0.106:6662/ys_admin';
     this.imgUrl = this.adminUrl + '/files/';
     this.isClosedUrl = this.appUrl + '/wechat/isClosed';
     this.adminOauth2Url = this.appUrl + '/admin/oauth2';
@@ -76,6 +78,7 @@ export class AppProperties {
     this.tblCustomerMyDeclaration  = this.appUrl + '/tblCustomer/myDeclaration';
     this.tblCustomerComplainReplyIsReplyUrl  = this.appUrl + '/tblCustomerComplainReply/isReply';
     this.tblCustomerComplainReplyAddUrl  = this.appUrl + '/tblCustomerComplainReply/add';
+    this.tblCustomerComplainReplyDetails = this.appUrl + '/tblCustomerComplainReply/replyDetails';
 
     this.suggestionImgUrl = this.adminUrl + '/complainImg/';
     this.wechatShareInfoUrl = this.appUrl + '/wechat/shareInfo';

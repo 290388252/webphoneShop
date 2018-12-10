@@ -41,6 +41,12 @@ export class OrderDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.id = 1;
+    if (this.token === undefined || this.token === null || this.token === '') {
+      this.token = urlParse(window.location.href)['token'];
+      const exp = new Date();
+      exp.setTime(exp.getTime() + 1000 * 60 * 60 * 24 * 365 * 10);
+      document.cookie = 'token=' + urlParse(window.location.href)['token'] + ';expires=' + exp.toUTCString();
+    }
     this.getData(this.appProperties.findAllUserOrderUrl);
     this.IsWeixinOrAlipay();
   }
