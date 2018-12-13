@@ -46,7 +46,7 @@ export class MainComponent implements OnInit {
   public otherCompany = true;
   public baoliCompany = false;
   public vmCode;
-  public openDoorMsg = '是否要开门？';
+  public openDoorMsg = '点击‘是’开门，祝您购物愉快！';
   public isConfirmLoading = false;
 
   constructor(private router: Router,

@@ -60,7 +60,7 @@ export class AppComponent implements OnInit {
           vmCode: urlParse(window.location.search)['vmCode'],
         }
       });
-      window.location.assign('http://localhost:81/shopGuide?vmCode=' + urlParse(window.location.search)['vmCode']);
+      // window.location.assign('http://localhost:81/shopGuide?vmCode=' + urlParse(window.location.search)['vmCode']);
     } else if (flag === 3) {
       this.router.navigate(['user'], {
         queryParams: {

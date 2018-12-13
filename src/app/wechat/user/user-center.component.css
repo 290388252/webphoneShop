@@ -90,19 +90,24 @@
   background-size: 25px 19px;
   padding-left: 40px !important;
 }
-.icon-list6{
-  background: url("../../../assets/icon/customerIcon/icon-list6.png") no-repeat;
+.icon-list9{
+  background: url("../../../assets/icon/customerIcon/icon-water.png") no-repeat;
   background-size: 25px 25px;
+  padding-left: 40px !important;
+}
+.icon-list6{
+  background: url("../../../assets/icon/customerIcon/icon-tel.png") no-repeat 2px 0px;
+  background-size: 21px 25px;
   padding-left: 40px !important;
 }
 .icon-list7{
-  background: url("../../../assets/icon/customerIcon/icon-list7.png") no-repeat 3px 0px;
-  background-size: 19px 25px;
+  background: url("../../../assets/icon/customerIcon/icon-gift.png") no-repeat;
+  background-size: 25px 25px;
   padding-left: 40px !important;
 }
 .icon-list8{
-  background: url("../../../assets/icon/customerIcon/icon-list8.png") no-repeat;
-  background-size: 25px 25px;
+  background: url("../../../assets/icon/customerIcon/icon-warn.png") no-repeat 0px 2px;
+  background-size: 25px 21px;
   padding-left: 40px !important;
 }
 .icon-arrow{

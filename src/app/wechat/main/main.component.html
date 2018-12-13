@@ -115,8 +115,11 @@
 
   <!--</div>-->
   </div>
-  <nz-modal [nzVisible]="isVisibleOpenDoor" [nzContent]="modalContents" [nzFooter]="modalFooters" [nzClosable]="false">
-    <ng-template #modalContents #modalFooters style="text-align: center">
+  <nz-modal [nzVisible]="isVisibleOpenDoor" [nzTitle]="modalTitle" [nzContent]="modalContents" [nzFooter]="modalFooters" [nzClosable]="false">
+    <ng-template #modalTitle>
+      <h6>优水到家提醒</h6>
+    </ng-template>
+    <ng-template #modalContents style="text-align: center">
       <p style="font-size: medium;">{{openDoorMsg}}</p>
     </ng-template>
     <ng-template #modalFooters style="text-align: center" >

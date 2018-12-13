@@ -265,7 +265,7 @@ export class PrepaidComponent implements OnInit {
         paySign: data.payInfo.sign, // 支付签名
         success: (res) => {
           if (res.errMsg === 'chooseWXPay:ok') {
-            window.location.href = 'http://http://sms.youshuidaojia.com:9800/user';
+            window.location.href = 'http://sms.youshuidaojia.com:9800/user?vmCode=' + urlParse(window.location.search)['vmCode'];
             // this.router.navigate(['cMain/shopCar']);
             console.log('支付成功');
           } else {

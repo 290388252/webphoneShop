@@ -17,6 +17,8 @@ export class MyDeclarationComponent implements OnInit, OnDestroy {
   public timer;
   public detailList = [];
   public complainIdsList = [];
+  public isVisible = false;
+  public openMsg = '';
 
   constructor(private appProperties: AppProperties,
               private appService: AppService,
@@ -74,6 +76,13 @@ export class MyDeclarationComponent implements OnInit, OnDestroy {
   turnText(src) {
     return src === 1 ? '优水客服:' : '我:';
   }
+  cancel() {
+    this.isVisible = false;
+  }
+  sure() {
+    this.isVisible = false;
+    window.location.href = 'tel://4008858203';
+  }
   ask(num) {
     /*console.log(list);*/
     if (this.declarationList[num].contentText !== '') {
@@ -104,8 +113,8 @@ export class MyDeclarationComponent implements OnInit, OnDestroy {
               }
             );
           } else {
-            alert(data.message);
-            window.location.href = 'tel://4008858203';
+            this.openMsg = data.message;
+            this.isVisible = true;
           }
         },
         error => {
