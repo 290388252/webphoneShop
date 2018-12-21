@@ -12,6 +12,7 @@ import {FileUploader} from 'ng2-file-upload';
 })
 export class ProblemComponent implements OnInit {
   public token = getToken();
+  public vmCode;
   public mPic: any;
   public messageAdd = '商品图片';
   public uploaderAdd: FileUploader;
@@ -43,6 +44,7 @@ export class ProblemComponent implements OnInit {
     this.newImg = true;
     this.isSpinning = false;
     this.disable = false;
+    this.vmCode = urlParse(window.location.search)['vmCode'];
   }
 
 
@@ -76,7 +78,7 @@ export class ProblemComponent implements OnInit {
       return;
     }
     this.appService.postDataOpen(this.appProperties.machineSuggestionUrl, {
-      'vmCode': urlParse(window.location.search)['vmCode'],
+      'vmCode': this.vmCode,
       'type': this.suggestionType,
       'picName': this.mPic,
       'content': this.userSuggestion

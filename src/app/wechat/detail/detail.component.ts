@@ -258,7 +258,7 @@ export class DetailComponent implements OnInit , AfterViewChecked {
     this.detailVisible = true;
     this.appService.postDetailData(this.appProperties.findMachineHistoryUrl,
       {
-        ptCode: ptCode
+        payCodeOrName: ptCode
       }).subscribe(
       data => {
         console.log(data);

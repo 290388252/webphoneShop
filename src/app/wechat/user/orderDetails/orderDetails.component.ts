@@ -255,7 +255,7 @@ export class OrderDetailsComponent implements OnInit {
     this.detailVisible = true;
     this.appService.postDetailData(this.appProperties.findMachineHistoryUrl,
       {
-        ptCode: ptCode
+        payCodeOrName: ptCode
       }).subscribe(
       data => {
         if (data.status === 1) {

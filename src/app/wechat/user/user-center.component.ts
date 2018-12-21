@@ -118,7 +118,8 @@ export class UserCenterComponent implements OnInit {
     } else if (flag === 7) {
       this.router.navigate(['myDeclaration']);
     } else if (flag === 8) {
-      this.router.navigate(['myInviteRewards']);
+      //window.location.href = 'http://localhost:80/shareGzh?token=' + this.token;
+      window.location.href = 'http://sms.youshuidaojia.com/shareGzh?token=' + this.token;
     }
   }
 }

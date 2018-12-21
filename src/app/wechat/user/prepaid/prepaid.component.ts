@@ -79,9 +79,12 @@ export class PrepaidComponent implements OnInit {
   // }
   keyupMoney() {
     console.log(this.prepaidMoney);
-    if (this.prepaidMoney !== undefined && this.prepaidMoney !== null) {
-
+    if (this.prepaidMoney !== undefined && this.prepaidMoney !== null && this.prepaidMoney !== '') {
+      this.errorNum = false;
       this.errorSumit = false;
+    } else {
+      this.errorNum = true;
+      this.errorSumit = true;
     }
   }
 
@@ -96,10 +99,12 @@ export class PrepaidComponent implements OnInit {
       this.isFocusA = true;
       this.isFocusB = false;
       this.errorSumit = false;
+      this.errorNum = false;
     } else if (val === 'isFocusB') {
       this.isFocusA = false;
       this.isFocusB = true;
       this.errorSumit = false;
+      this.errorNum = false;
     } else if (val === 'isFocusC') {
       this.isFocusA = false;
       this.isFocusB = false;
@@ -176,51 +181,55 @@ export class PrepaidComponent implements OnInit {
   prepaidPay() {
     console.log(this.endMoney);
     console.log(this.endPhone);
-    this.appService.postAliData(this.appProperties.shopPrepaidAddUrl, {
-      price: this.endMoney,
-      friendPhone: this.endPhone
-    }, this.token).subscribe(
-      data2 => {
-        console.log(data2);
-        alert(data2.message);
-        if (data2.status === -99) {
-          return;
-        }
-        if (data2.returnObject.orderState !== 10001) {
-          this.orderId = data2.returnObject.id;
-          this.appService.getAliData(this.appProperties.shopPrepaidBuyUrl, {
-            payCode: data2.returnObject.payCode,
-            price: this.prepaidMoney,
-            url: 'http://sms.youshuidaojia.com:9800/prepaid'
-          }, this.token).subscribe(
-            data4 => {
-              if (data4.status === 2) {
-                window.location.href = data4.returnObject;
-              } else {
-                if (typeof(WeixinJSBridge) === 'undefined') {
-                  this.onBridgeUndefindeReady(data4);
+    if (this.endMoney !== '' && this.endMoney !== null && this.endMoney !== undefined) {
+      this.appService.postAliData(this.appProperties.shopPrepaidAddUrl, {
+        price: this.endMoney,
+        friendPhone: this.endPhone
+      }, this.token).subscribe(
+        data2 => {
+          console.log(data2);
+          alert(data2.message);
+          if (data2.status === -99) {
+            return;
+          }
+          if (data2.returnObject.orderState !== 10001) {
+            this.orderId = data2.returnObject.id;
+            this.appService.getAliData(this.appProperties.shopPrepaidBuyUrl, {
+              payCode: data2.returnObject.payCode,
+              price: this.endMoney,
+              url: 'http://sms.youshuidaojia.com:9800/prepaid'
+            }, this.token).subscribe(
+              data4 => {
+                if (data4.status === 2) {
+                  window.location.href = data4.returnObject;
                 } else {
-                  this.onBridgeReady(data4);
+                  if (typeof(WeixinJSBridge) === 'undefined') {
+                    this.onBridgeUndefindeReady(data4);
+                  } else {
+                    this.onBridgeReady(data4);
+                  }
                 }
+              },
+              error => {
+                console.log(error);
               }
-            },
-            error => {
-              console.log(error);
-            }
-          );
-        } else {
-          alert('支付完成！');
-          this.router.navigate(['user'], {
-            queryParams: {
-              vmCode: urlParse(window.location.search)['vmCode'],
-            }
-          });
+            );
+          } else {
+            alert('支付完成！');
+            this.router.navigate(['user'], {
+              queryParams: {
+                vmCode: urlParse(window.location.search)['vmCode'],
+              }
+            });
+          }
+        },
+        error2 => {
+          console.log(error2);
         }
-      },
-      error2 => {
-        console.log(error2);
-      }
-    );
+      );
+    } else {
+      alert('充值金额不能为空！');
+    }
   }
 
   onBridgeUndefindeReady(data) {

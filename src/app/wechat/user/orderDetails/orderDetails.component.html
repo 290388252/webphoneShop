@@ -36,6 +36,7 @@
       <!--<img src="../../../../../assets/icon/payIcon.png" class="unPay_img" (click)="pay(item)">-->
       <!--</div>-->
       <div class="unPay">
+        <div style="width: 60px;font-size: 12px;color: #666666;line-height: 40px;height: 40px;margin-left: 10px;" *ngIf="!(item.useMoney === null || item.useMoney === '')">余额支付</div>
         <div class="refund-btn" (click)="applyRefund(item)" *ngIf="item.stateName === '已支付'">申请退款</div>
         <div class="unPay_img" (click)="pay(item)" *ngIf="item.stateName === '未支付'">去支付</div>
         <div class="details" (click)="detail(item.payCode)">查看详情</div>

@@ -299,7 +299,7 @@
 .weui-dialog {
   position: fixed;
   z-index: 5000;
-  width: 80%;
+  width: 90%;
   max-width: 300px;
   top: 50%;
   left: 50%;
@@ -319,7 +319,7 @@
 .weui-skin_android .weui-dialog__bd {
   color: #808080;
   padding: 0.25em 1.6em 2em;
-  font-size: 17px;
+  font-size: 16px;
   text-align: left;
 }
 

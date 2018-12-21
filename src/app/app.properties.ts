@@ -37,7 +37,7 @@ export class AppProperties {
   public tblCustomerMyDeclaration: string;
   public tblCustomerComplainReplyIsReplyUrl: string;
   public tblCustomerComplainReplyAddUrl: string;
-  public tblCustomerComplainReplyDetails: string
+  public tblCustomerComplainReplyDetails: string;
   public shopPrepaidAddUrl: string;
   public shopPrepaidBuyUrl: string;
   public alipayWapPayUrl: string;
@@ -45,7 +45,7 @@ export class AppProperties {
   constructor() {
     // Public
     this.appUrl = 'http://47.106.92.82:6662/ys_sms';
-    // this.appUrl = 'http://192.168.0.106:6662/ys_sms';
+    // this.appUrl = 'http://192.168.0.112:8769/ys_sms';
     this.adminUrl = 'http://119.23.233.123:6662/ys_admin';
     // this.adminUrl = 'http://192.168.0.106:6662/ys_admin';
     this.imgUrl = this.adminUrl + '/files/';
@@ -66,7 +66,7 @@ export class AppProperties {
     this.findAllUserOrderUrl = this.appUrl + '/alipayRecord/getCustomerOrder';
     this.orderUnifiedOrderUrl = this.appUrl + '/order/unifiedOrder';
     this.nonePassWordPayUrl = this.appUrl + '/wechat/entrustweb';
-    this.findMachineHistoryUrl = this.adminUrl + '/payRecord/findMachineHistory';
+    this.findMachineHistoryUrl = this.appUrl + '/order/findMachineHistory';
     // this.couponAvailable = this.appUrl + '/coupon/available';
     this.couponAvailable = this.appUrl + '/tblCustomer/myCoupon';
     this.shoppingWaterCouponUrl = this.appUrl + '/tblCustomer/myCarryWaterVouchers';

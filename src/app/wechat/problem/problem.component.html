@@ -31,8 +31,7 @@
     <div class="faultPic_cont">
       <!--<a href="javascript:;" [class]="newImg ? 'file' : 'fileA'">-->
       <a href="javascript:;" class="file" id="faultImg">
-        <input type="file" name="mPic" id="mPic" ng2FileSelect [uploader]="uploaderAdd"capture="camera" accept="image/*"
-               (change)="uploadAdd($event)">
+        <input type="file" name="mPic" id="mPic" ng2FileSelect [uploader]="uploaderAdd" accept="image/*" (change)="uploadAdd($event)">
       </a>
       <div class="faultPic_in" *ngIf="imgShow">
         <nz-spin [nzSpinning]="isSpinning" style="display: inline-block !important;" *ngIf="loading"></nz-spin>
