@@ -6,7 +6,7 @@
   <div class="faultType">
     <span class="faultType_text">故障类型:</span>
     <div class="faultType_select">
-      <nz-select style="display: block" [(ngModel)]="suggestionType">
+      <nz-select style="display: block" [(ngModel)]="suggestionType" (ngModelChange)="typeChange()">
         <nz-option nzValue='' nzLabel="请选择投诉类型"></nz-option>
         <nz-option nzValue="1" nzLabel="扣错款"></nz-option>
         <nz-option nzValue="2" nzLabel="未扣款"></nz-option>
@@ -15,7 +15,14 @@
         <nz-option nzValue="5" nzLabel="货物过期"></nz-option>
         <nz-option nzValue="6" nzLabel="货物破损"></nz-option>
         <nz-option nzValue="7" nzLabel="其他"></nz-option>
+        <nz-option nzValue="8" nzLabel="无法获取手机验证码"></nz-option>
       </nz-select>
+    </div>
+  </div>
+  <div style="width: 100%;padding:0 10px;margin-top: 10px;background: #FFFFFF;line-height: 48px;" *ngIf="suggestionType === '8'">
+    <span style="display: block;position: absolute;font-size: 13px;">故障手机号:</span>
+    <div style="display: block;margin-left: 70px;">
+      <input nz-input placeholder="请输入手机号" [(ngModel)]="phone">
     </div>
   </div>
   <div class="faultContent">

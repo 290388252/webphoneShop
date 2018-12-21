@@ -3,11 +3,11 @@
     <span (click)="goTo()" class="guideIcon"><i class="anticon anticon-left"></i></span>
     优惠券
   </div>
-  <!--<ul class="menu-top" nz-menu [nzMode]="'horizontal'">-->
-    <!--<li (click)="choose(1)" class="menu-li" nz-menu-item [nzSelected]="true">未使用</li>-->
-    <!--<li (click)="choose(2)" class="menu-li" nz-menu-item>已使用</li>-->
-    <!--<li (click)="choose(3)" class="menu-li" nz-menu-item>已过期</li>-->
-  <!--</ul>-->
+  <ul class="menu-top" nz-menu [nzMode]="'horizontal'">
+    <li (click)="choose(1)" class="menu-li" nz-menu-item [nzSelected]="true">未使用</li>
+    <li (click)="choose(2)" class="menu-li" nz-menu-item>已使用</li>
+    <li (click)="choose(3)" class="menu-li" nz-menu-item>已过期</li>
+  </ul>
   <div *ngIf="empty" class="none">
     <img style="width: 35%;margin-bottom: 5px" src="../../../../../assets/icon/wrong.png" alt="">
     <h4>空空如也~</h4>

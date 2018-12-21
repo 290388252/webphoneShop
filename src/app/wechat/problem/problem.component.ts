@@ -24,6 +24,7 @@ export class ProblemComponent implements OnInit {
   public isSpinning;
   public loading;
   public disable;
+  public phone;
 
   constructor(private appProperties: AppProperties,
               private appService: AppService,
@@ -73,19 +74,36 @@ export class ProblemComponent implements OnInit {
   }
 
   submitSuggestion() {
+    this.disable = true;
     if (this.suggestionType === undefined || this.suggestionType === null || this.suggestionType === '') {
       alert('请选择故障申报类型');
+      this.disable = false;
       return;
+    }
+    if (this.suggestionType === '8') {
+      if (this.phone === undefined || this.phone === '' || this.phone === null) {
+        alert('请输入手机号');
+        this.disable = false;
+        return;
+      }
+      const myreg = /^1[23456789]\d{9}$/;
+      if (!myreg.test(this.phone)) {
+        alert('请输入正确的手机号');
+        this.disable = false;
+        return;
+      }
     }
     this.appService.postDataOpen(this.appProperties.machineSuggestionUrl, {
       'vmCode': this.vmCode,
       'type': this.suggestionType,
       'picName': this.mPic,
+      'phone': this.phone,
       'content': this.userSuggestion
     }, this.token).subscribe(
       data => {
         if (data.status === 1) {
           alert('提交成功');
+          this.disable = false;
           this.router.navigate(['main'], {
             queryParams: {
               vmCode: sessionStorage.getItem('vmCode')
@@ -93,6 +111,7 @@ export class ProblemComponent implements OnInit {
           });
         } else {
           alert(data.message);
+          return;
         }
       },
       error2 => {
@@ -106,5 +125,9 @@ export class ProblemComponent implements OnInit {
         vmCode: sessionStorage.getItem('vmCode')
       }
     });
+  }
+
+  typeChange() {
+    this.phone = undefined;
   }
 }

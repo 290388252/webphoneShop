@@ -31,5 +31,13 @@ export class BargainComponent implements OnInit {
     // this.userBalance = urlParse(window.location.href)['userBalance'];
     this.token = getToken();
   }
-
+  goTo() {
+    this.router.navigate(['bargainList'], {
+      queryParams: {
+        vmCode: urlParse(window.location.search)['vmCode'],
+      }
+    });
+  }
+  to() {
+  }
 }
