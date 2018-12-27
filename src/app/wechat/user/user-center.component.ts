@@ -120,14 +120,15 @@ export class UserCenterComponent implements OnInit {
     } else if (flag === 8) {
       // window.location.href = 'http://localhost:80/shareGzh?token=' + this.token;
       window.location.href = 'http://sms.youshuidaojia.com/shareGzh?token=' + this.token;
-    } else if (flag === 9) {
-      window.location.href = 'http://localhost:81/bargainList?vmCode=' + urlParse(window.location.search)['vmCode'];
-      // window.location.href = 'http://sms.youshuidaojia.com/shareGzh?token=' + this.token;
-      // this.router.navigate(['bargainList'], {
-      //   queryParams: {
-      //     vmCode: urlParse(window.location.search)['vmCode'],
-      //   }
-      // });
     }
+    // else if (flag === 9) {
+    //   window.location.href = 'http://localhost:81/bargainList?vmCode=' + urlParse(window.location.search)['vmCode'];
+    //   // window.location.href = 'http://sms.youshuidaojia.com/shareGzh?token=' + this.token;
+    //   // this.router.navigate(['bargainList'], {
+    //   //   queryParams: {
+    //   //     vmCode: urlParse(window.location.search)['vmCode'],
+    //   //   }
+    //   // });
+    // }
   }
 }

@@ -20,9 +20,9 @@ const routes: Routes = [/*
   {path: 'scan', loadChildren: './wechat/scan/scan.module#ScanModule'},
   {path: 'prepaid', loadChildren: './wechat/user/prepaid/prepaid.module#PrepaidModule'},
   {path: 'protocol', loadChildren: './wechat/user/protocol/protocol.module#ProtocolModule'},
-  {path: 'bargain', loadChildren: './wechat/user/bargain/bargain.module#BargainModule'},
-  {path: 'bargainList', loadChildren: './wechat/user/bargainList/bargainList.module#BargainListModule'},
-  {path: 'bargainDetails', loadChildren: './wechat/user/bargainDetails/bargainDetails.module#BargainDetailsModule'},
+  // {path: 'bargain', loadChildren: './wechat/user/bargain/bargain.module#BargainModule'},
+  // {path: 'bargainList', loadChildren: './wechat/user/bargainList/bargainList.module#BargainListModule'},
+  // {path: 'bargainDetails', loadChildren: './wechat/user/bargainDetails/bargainDetails.module#BargainDetailsModule'},
 
 ];
 

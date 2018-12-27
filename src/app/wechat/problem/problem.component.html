@@ -22,7 +22,9 @@
   <div style="width: 100%;padding:0 10px;margin-top: 10px;background: #FFFFFF;line-height: 48px;" *ngIf="suggestionType === '8'">
     <span style="display: block;position: absolute;font-size: 13px;">故障手机号:</span>
     <div style="display: block;margin-left: 70px;">
-      <input nz-input placeholder="请输入手机号" [(ngModel)]="phone">
+      <input nz-input placeholder="请输入手机号" [(ngModel)]="phone" oninput="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}
+      else{this.value=this.value.replace(/\D/g,'')}if(value.length>11)value=value.slice(0,11);"
+             onafterpaste="if(value.length>11)value=value.slice(0,11)">
     </div>
   </div>
   <div class="faultContent">
