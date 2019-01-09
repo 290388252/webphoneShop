@@ -7,10 +7,10 @@ import {FileUploader} from 'ng2-file-upload';
 
 @Component({
   selector: 'app-user-detail',
-  templateUrl: './problem.component.html',
-  styleUrls: ['./problem.component.css']
+  templateUrl: './problemList.component.html',
+  styleUrls: ['./problemList.component.css']
 })
-export class ProblemComponent implements OnInit {
+export class ProblemListComponent implements OnInit {
   public token = getToken();
   public vmCode;
   public mPic: any;
@@ -120,20 +120,12 @@ export class ProblemComponent implements OnInit {
       });
   }
 
-  goTo(val) {
-    if (val === '1') {
-      this.router.navigate(['main'], {
-        queryParams: {
-          vmCode: sessionStorage.getItem('vmCode')
-        }
-      });
-    } else if (val === '2') {
-      this.router.navigate(['problemList'], {
-        queryParams: {
-          vmCode: sessionStorage.getItem('vmCode')
-        }
-      });
-    }
+  goTo() {
+    this.router.navigate(['problem'], {
+      queryParams: {
+        vmCode: sessionStorage.getItem('vmCode')
+      }
+    });
   }
 
   typeChange() {

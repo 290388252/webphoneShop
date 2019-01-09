@@ -12,6 +12,7 @@ const routes: Routes = [/*
   {path: 'user', loadChildren: './wechat/user/user-center.module#UserCenterModule'},
   {path: 'shopGuide', loadChildren: './wechat/shopGuide/shopGuide.module#ShopGuideModule'},
   {path: 'problem', loadChildren: './wechat/problem/problem.module#ProblemModule'},
+  {path: 'problemList', loadChildren: './wechat/problemList/problemList.module#ProblemListModule'},
   {path: 'coupon', loadChildren: './wechat/user/coupon/coupon.module#CouponModule'},
   {path: 'waterCoupon', loadChildren: './wechat/user/waterCoupon/waterCoupon.module#WaterCouponModule'},
   {path: 'orderDetails', loadChildren: './wechat/user/orderDetails/orderDetails.module#OrderDetailsModule'},
@@ -23,7 +24,6 @@ const routes: Routes = [/*
   // {path: 'bargain', loadChildren: './wechat/user/bargain/bargain.module#BargainModule'},
   // {path: 'bargainList', loadChildren: './wechat/user/bargainList/bargainList.module#BargainListModule'},
   // {path: 'bargainDetails', loadChildren: './wechat/user/bargainDetails/bargainDetails.module#BargainDetailsModule'},
-
 ];
 
 @NgModule({
