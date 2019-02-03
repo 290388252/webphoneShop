@@ -55,11 +55,13 @@ export class AppComponent implements OnInit {
         });
       }
     } else if (flag === 2) {
-      this.router.navigate(['shopGuide'], {
+      this.router.navigate(['coupon'], {
         queryParams: {
-          vmCode: urlParse(window.location.search)['vmCode'],
+          coupon: 1,
+          vmCode: urlParse(window.location.search)['vmCode']
         }
       });
+      // window.location.href = `http://sms.youshuidaojia.com/shopGuide?vmCode=${urlParse(window.location.search)['vmCode']}`;
       // window.location.assign('http://localhost:81/shopGuide?vmCode=' + urlParse(window.location.search)['vmCode']);
     } else if (flag === 3) {
       this.router.navigate(['user'], {

@@ -26,6 +26,7 @@ export class UserCenterComponent implements OnInit {
     this.token = getToken();
     this.getDate();
   }
+
   getDate() {
     this.appService.postAliData(this.appProperties.tblCustomerMyInfo, {}, this.token).subscribe(
       data => {
@@ -50,6 +51,7 @@ export class UserCenterComponent implements OnInit {
       }
     );
   }
+
 // 新用户登陆
   login() {
     this.appService.getData(this.appProperties.wechatOauth2Url, {vmCode: urlParse(window.location.href)['vmCode']}).subscribe(
@@ -75,6 +77,7 @@ export class UserCenterComponent implements OnInit {
       }
     );
   }
+
   // 支付宝登陆
   noTokenOath() {
     this.appService.getData(this.appProperties.aliGetUserIdUrl + '?vmCode=' + urlParse(window.location.search)['vmCode'], '').subscribe(
@@ -87,9 +90,27 @@ export class UserCenterComponent implements OnInit {
       }
     );
   }
+
   detail(flag) {
     if (flag === 1) {
-      window.location.href = 'http://sms.youshuidaojia.com:9800/prepaid?vmCode=' + urlParse(window.location.href)['vmCode'];
+      this.appService.postAliData(this.appProperties.tblCustomerMyInfo, {}, this.token).subscribe(
+        data => {
+          if (data.status === -66) {
+            alert(data.message);
+            return;
+          } else {
+            // window.location.href = 'http://sms.youshuidaojia.com:9800/prepaid?vmCode=' + urlParse(window.location.href)['vmCode'] + '&token=' + this.token;
+            this.router.navigate(['prepaid'], {
+              queryParams: {
+                vmCode: urlParse(window.location.search)['vmCode']
+              }
+            });
+          }
+        },
+        error => {
+          console.log(error);
+        }
+      );
     } else if (flag === 2) {
       this.router.navigate(['orderDetails'], {
         queryParams: {

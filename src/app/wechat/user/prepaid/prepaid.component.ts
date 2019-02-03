@@ -16,7 +16,7 @@ declare var WeixinJSBridge: any;
 })
 export class PrepaidComponent implements OnInit {
   public imgUrl = this.appProperties.shopImgUrl;
-  public token;
+  public token = getToken();
   public userBalance;
   public userIntegral;
   public prepaidMoney;
@@ -31,16 +31,24 @@ export class PrepaidComponent implements OnInit {
   //
   public isFocusA;
   public isFocusB;
+  public isFocusD;
+  public isFocusE;
   public correct;
+  public isWechat;
 
   constructor(private appProperties: AppProperties, private appService: AppService, private router: Router,
               private modalService: NzModalService) {
   }
 
   ngOnInit() {
-    // this.userBalance = urlParse(window.location.href)['userBalance'];
+    if (this.token === undefined || this.token === null || this.token === '') {
+      this.token = urlParse(window.location.href)['token'];
+      const exp = new Date();
+      exp.setTime(exp.getTime() + 1000 * 60 * 60 * 24 * 365 * 10);
+      document.cookie = 'token=' + urlParse(window.location.href)['token'] + ';expires=' + exp.toUTCString();
+    }
+    console.log(this.token);
     this.token = getToken();
-    this.getDate();
     this.prepaidMoney = undefined;
     this.judgeFriend = false;
     this.judgeButton = '点击帮好友充值';
@@ -48,13 +56,28 @@ export class PrepaidComponent implements OnInit {
     this.isFocusB = false;
     this.errorSumit = false;
     this.correct = false;
+    this.getDate();
+    this.IsWeixinOrAlipay();
+  }
+
+  IsWeixinOrAlipay() {
+    const ua = window.navigator.userAgent.toLowerCase();
+    if (ua.match(/MicroMessenger/i)) {
+      if (ua.match(/MicroMessenger/i)[0] === 'micromessenger') {
+        this.isWechat = true;
+      }
+    } else if (ua.match(/AlipayClient/i)) {
+      if (ua.match(/AlipayClient/i)[0] === 'alipayclient') {
+        this.isWechat = false;
+      }
+    }
   }
 
   getDate() {
-    this.appService.postAliData(this.appProperties.shopUserMoneyUrl, {}, this.token).subscribe(
+    this.appService.postAliData(this.appProperties.tblCustomerMyInfo, {}, this.token).subscribe(
       data => {
-        console.log(data);
-        if (data.status === 1) {
+        if (data.code === -1) {
+        } else {
           this.userBalance = data.returnObject.userBalance;
           this.userIntegral = data.returnObject.integral;
         }
@@ -78,7 +101,6 @@ export class PrepaidComponent implements OnInit {
   //   }
   // }
   keyupMoney() {
-    console.log(this.prepaidMoney);
     if (this.prepaidMoney !== undefined && this.prepaidMoney !== null && this.prepaidMoney !== '') {
       this.errorNum = false;
       this.errorSumit = false;
@@ -89,31 +111,48 @@ export class PrepaidComponent implements OnInit {
   }
 
   focusMoney(val) {
-    // console.log(this.prepaidMoney);
-    // if (event !== null) {
-    //   if (event !== undefined) {
-    //     this.errorSumit = false;
-    //   }
-    // }
     if (val === 'isFocusA') {
       this.isFocusA = true;
       this.isFocusB = false;
+      this.isFocusD = false;
+      this.isFocusE = false;
       this.errorSumit = false;
       this.errorNum = false;
+      this.prepaidMoney = undefined;
     } else if (val === 'isFocusB') {
       this.isFocusA = false;
       this.isFocusB = true;
+      this.isFocusD = false;
+      this.isFocusE = false;
       this.errorSumit = false;
       this.errorNum = false;
+      this.prepaidMoney = undefined;
+    } else if (val === 'isFocusD') {
+      this.isFocusA = false;
+      this.isFocusB = false;
+      this.isFocusD = true;
+      this.isFocusE = false;
+      this.errorSumit = false;
+      this.errorNum = false;
+      this.prepaidMoney = undefined;
+    } else if (val === 'isFocusE') {
+      this.isFocusA = false;
+      this.isFocusB = false;
+      this.isFocusD = false;
+      this.isFocusE = true;
+      this.errorSumit = false;
+      this.errorNum = false;
+      this.prepaidMoney = undefined;
     } else if (val === 'isFocusC') {
       this.isFocusA = false;
       this.isFocusB = false;
+      this.isFocusD = false;
+      this.isFocusE = false;
       this.errorSumit = true;
     }
   }
 
   goTo(flag) {
-    console.log(flag === 'prepaidPay');
     if (flag === 'userCenter') {
       this.router.navigate(['user'], {
         queryParams: {
@@ -134,15 +173,25 @@ export class PrepaidComponent implements OnInit {
     if (this.judgeFriend === true) {
       this.judgeButton = '点击本账号充值';
       this.prepaidPhone = undefined;
+      this.prepaidMoney = undefined;
+      this.isFocusA = true;
+      this.isFocusB = false;
+      this.isFocusD = false;
+      this.isFocusE = false;
     } else if (this.judgeFriend === false) {
       this.judgeButton = '点击帮好友充值';
       this.correct = false;
-
+      this.prepaidMoney = undefined;
+      this.isFocusA = true;
+      this.isFocusB = false;
+      this.isFocusD = false;
+      this.isFocusE = false;
     }
   }
 
   prepaidComfirm() {
     let user;
+    console.log(this.judgeFriend === false);
     if (this.judgeFriend === false) {
       this.endPhone = null;
       user = '本账号';
@@ -157,10 +206,14 @@ export class PrepaidComponent implements OnInit {
       }
       user = '好友';
     }
-    if (this.isFocusA === true && this.isFocusB === false) {
+    if (this.isFocusA === true && this.isFocusB === false && this.isFocusD === false && this.isFocusE === false) {
       this.endMoney = 200;
-    } else if (this.isFocusA === false && this.isFocusB === true) {
+    } else if (this.isFocusA === false && this.isFocusB === true && this.isFocusD === false && this.isFocusE === false) {
       this.endMoney = 100;
+    } else if (this.isFocusA === false && this.isFocusB === false && this.isFocusD === true && this.isFocusE === false) {
+      this.endMoney = 50;
+    } else if (this.isFocusA === false && this.isFocusB === false && this.isFocusD === false && this.isFocusE === true) {
+      this.endMoney = 20;
     } else {
       this.endMoney = this.prepaidMoney;
       if (Number(this.prepaidMoney) < 0) {
@@ -176,18 +229,16 @@ export class PrepaidComponent implements OnInit {
       okText: '确定支付',
       onOk: () => this.prepaidPay()
     });
+    console.log(this.endPhone);
   }
 
   prepaidPay() {
-    console.log(this.endMoney);
-    console.log(this.endPhone);
     if (this.endMoney !== '' && this.endMoney !== null && this.endMoney !== undefined) {
       this.appService.postAliData(this.appProperties.shopPrepaidAddUrl, {
         price: this.endMoney,
         friendPhone: this.endPhone
       }, this.token).subscribe(
         data2 => {
-          console.log(data2);
           alert(data2.message);
           if (data2.status === -99) {
             return;
