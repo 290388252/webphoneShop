@@ -58,7 +58,6 @@ export class MainComponent implements OnInit {
 
   ngOnInit() {
     this.getInitData();
-    console.log(urlParse(window.location.search)['token'] === undefined);
     if (urlParse(window.location.search)['token'] === undefined) {
       this.getCookies();
     } else {
@@ -73,7 +72,6 @@ export class MainComponent implements OnInit {
     } else if (getCoupon() === '2') {
       this.isVisibleCouponTwo = true;
     }
-    console.log(urlParse(window.location.search)['vmCode']);
     // // 新用户进入界面
     if (getNewUser() === '1') {
       document.cookie = 'newUser=' + 0;
@@ -90,11 +88,14 @@ export class MainComponent implements OnInit {
     this.vmCode = urlParse(window.location.search)['vmCode'];
   }
 
-  // 数据初始化
+  /**
+   * 2019-02-15
+   * @author maiziyao
+   *  数据初始化
+   */
   getInitData() {
     this.appService.postData(this.appProperties.machineInfoGetCompanyIdUrl + urlParse(window.location.search)['vmCode'], '').subscribe(
       data2 => {
-        console.log(data2);
         if (getActiveCompanyId().includes(data2.returnObject.toString())) {
           this.youshuiCompany = false;
           this.otherCompany = true;
@@ -114,7 +115,6 @@ export class MainComponent implements OnInit {
       });
     this.appService.getData(this.appProperties.indexListUrl, {vmCode: urlParse(window.location.search)['vmCode'], type: 1}).subscribe(
       data => {
-        console.log(data);
         if (data.code === 0) {
           if (data.data.length <= 4) {
             this.isFourDoor = true;
@@ -151,6 +151,11 @@ export class MainComponent implements OnInit {
     );
   }
 
+  /**
+   * 2019-02-15
+   * @author maiziyao
+   *  数据初始化
+   */
   showActiveItem(item, baoliCompany) {
     let flag;
     const list = getActiveItemId();
@@ -174,7 +179,11 @@ export class MainComponent implements OnInit {
     return flag;
   }
 
-  // 开门
+  /**
+   * 2019-02-15
+   * @author maiziyao
+   * 开门
+   */
   openDoor(item) {
     this.item = item;
     if (item.num <= 0) {
@@ -184,6 +193,11 @@ export class MainComponent implements OnInit {
     }
   }
 
+  /**
+   * 2019-02-15
+   * @author maiziyao
+   * 八门机器
+   */
   eigthDoorChoose(flag) {
     this.eightDoorFlag = flag;
     if (flag === 0) {
@@ -193,10 +207,14 @@ export class MainComponent implements OnInit {
     }
   }
 
-  follow() {
-    window.location.href = 'https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzU0NzQ4MTY0Mg==&scene=124#wechat_redirect';
-  }
-
+  // follow() {
+  //   window.location.href = 'https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzU0NzQ4MTY0Mg==&scene=124#wechat_redirect';
+  // }
+  /**
+   * 2019-02-15
+   * @author maiziyao
+   * 关闭领取优惠弹框
+   */
   closeCoupon() {
     this.isVisibleCoupon = false;
     this.isVisibleCouponTwo = false;
@@ -204,20 +222,22 @@ export class MainComponent implements OnInit {
     document.cookie = 'coupon=' + 1;
   }
 
-  // 运维登陆
+  /**
+   * 2019-02-15
+   * @author maiziyao
+   * 运维登陆
+   */
   vmLogin(flag) {
     if (flag === 1) {
       // 微信授权登陆验证
       this.appService.getData(this.appProperties.adminOauth2Url, '').subscribe(
         data => {
-          console.log(data);
           let newData;
           const newWlhUrl = '/vmLogin?vmCode=' + urlParse(window.location.search)['vmCode'] + '-/addMain?vmCode='
             + urlParse(window.location.search)['vmCode'];
           if (typeof(data.data) === 'string' && data.data.length > 0) {
             newData = data.data.replace(data.data.substring(data.data.indexOf('state=') + 6, data.data.length),
               newWlhUrl);
-            console.log(newData);
             window.location.href = newData;
           }
         },
@@ -225,80 +245,20 @@ export class MainComponent implements OnInit {
           console.log(error);
         }
       );
-      // this.router.navigate(['addMain'], {
-      //   queryParams: {
-      //     vmCode: urlParse(window.location.search)['vmCode'],
-      //     payType: 1
-      //   }
-      // });
     } else if (flag === 2) {
       document.getElementsByClassName('ant-modal-body')[4]['style'].cssText = 'padding: 0;';
       this.isVisibleCouponThree = true;
     }
   }
 
-  openSuggestion() {
-    document.getElementsByClassName('ant-modal-body')[5]['style'].cssText = 'padding: 0;';
-    this.isVisibleCouponFour = true;
-    this.showSuggestion = false;
-  }
-
-  closeSuggestion() {
-    this.isVisibleCouponFour = false;
-  }
-
-
-  submitSuggestion() {
-    if (this.userSuggestion === undefined || this.userSuggestion === null || this.userSuggestion === '') {
-      this.showSuggestion = true;
-      return;
-    } else {
-      this.showSuggestion = false;
-    }
-    this.appService.postDataOpen(this.appProperties.machineSuggestionUrl, {
-      'vmCode': urlParse(window.location.search)['vmCode'],
-      'content': this.userSuggestion
-    }, this.token).subscribe(
-      data => {
-        console.log(data);
-        if (data.status === 1) {
-          alert('提交成功');
-          this.userSuggestion = undefined;
-          this.isVisibleCouponFour = false;
-        } else {
-          alert(data.message);
-        }
-      },
-      error2 => {
-        console.log(error2);
-      });
-  }
-
-  // 订单详情
-  product(flag) {
-    // this.router.navigate(['product'], {
-    //   queryParams: {
-    //     token: this.token
-    //   }});
-    console.log('12');
-    this.router.navigate(['detail'], {
-      queryParams: {
-        vmCode: urlParse(window.location.search)['vmCode'],
-        flag: flag
-      }
-    });
-    // TODO;
-  }
-
-  show() {
-    this.couponButtonHidden = !this.couponButtonHidden;
-  }
-
-  // 是否已关门
+  /**
+   * 2019-02-15
+   * @author maiziyao
+   * 是否已关门
+   */
   isClosed(vmCode) {
     this.appService.getDataOpen(this.appProperties.isClosedUrl, {vmCode: vmCode}, this.token).subscribe(
       data2 => {
-        console.log(data2);
         if (data2.data === false) {
           // alert('您的门还未关闭！优水到家提醒您,为了您账号资金安全,提水后请随手关门');
           this.isVisibleOpen = true;
@@ -314,23 +274,21 @@ export class MainComponent implements OnInit {
     );
   }
 
-  // 新用户登陆
+  /**
+   * 2019-02-15
+   * @author maiziyao
+   * 新用户登陆
+   */
   login() {
     this.appService.getData(this.appProperties.wechatOauth2Url, {vmCode: urlParse(window.location.href)['vmCode']}).subscribe(
       data => {
-        console.log(data);
         let newData;
-        // const wlhUrl = 'http://youshui.natapp1.cc/main';
-        // const wlhUrl = window.location.href;
-        // const newWlhUrl = window.location.href.replace('main', 'register');
-        // const newWlhUrl = wlhUrl.replace(wlhUrl.substring(wlhUrl.indexOf('main'), wlhUrl.length), 'register');
         const wlhUrl = '/main?vmCode=' + urlParse(window.location.href)['vmCode'];
         const newWlhUrl = '/register?vmCode=' + urlParse(window.location.href)['vmCode'];
         const state = urlParse(data.data)['state'];
         if (typeof(data.data) === 'string' && data.data.length > 0) {
           newData = data.data.replace(data.data.substring(data.data.indexOf('state=') + 6, data.data.length),
             newWlhUrl + '-' + wlhUrl + '-' + state);
-          console.log(newData);
           window.location.href = newData;
         }
       },
@@ -340,18 +298,11 @@ export class MainComponent implements OnInit {
     );
   }
 
-  handleOk($event) {
-    window.location.href = this.appProperties.followWechatSubscription;
-    this.currentModal.destroy('onOk');
-  }
-
-  // 检测关门
-  openOk() {
-    this.isVisibleOpen = true;
-    this.isClosed(urlParse(window.location.search)['vmCode']);
-  }
-
-  // 确定开门
+  /**
+   * 2019-02-15
+   * @author maiziyao
+   * 确定开门
+   */
   yesOpenDoor() {
     this.isConfirmLoading = true;
     this.openDoorMsg = '正在开门请稍等！';
@@ -371,11 +322,8 @@ export class MainComponent implements OnInit {
           this.appService.getDataOpen(this.appProperties.indexOpenDoor,
             {vmCode: urlParse(window.location.search)['vmCode'], way: this.item.wayNumber}, this.token).subscribe(
             data => {
-              console.log(data);
               this.clickMore = false;
               if (data.code === 0) {
-                // alert('优水到家提醒您,为了您账号资金安全,提水后请随手关门');
-                // this.isVisibleOpen = true;
                 const u = navigator.userAgent;
                 const isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); // ios终端
                 if (isiOS) {
@@ -446,61 +394,70 @@ export class MainComponent implements OnInit {
     }, 1000);
   }
 
-  // 确定关门
+  /**
+   * 2019-02-15
+   * @author maiziyao
+   * 确定关门
+   */
   noOpenDoor() {
     this.isVisibleOpenDoor = false;
   }
 
+  /**
+   * 2019-02-15
+   * @author maiziyao
+   * 扫一扫
+   */
   scan() {
-      const u = navigator.userAgent, app = navigator.appVersion;
-      const isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
-      if (isIOS) {
-        window.location.href = 'http://sms.youshuidaojia.com:9800/scan';
-        this.url = sessionStorage.getItem('url');
-      } else {
-        this.url = window.location.href;
-        this.appService.postScanFormData(this.appProperties.wechatShareInfoUrl,
-          // + '?url=http://sms.youshuidaojia.com:9800/user?vmCode=' + urlParse(window.location.href)['vmCode'],
-          {url: this.url}).subscribe(
-          data => {
-            console.log(data);
-            wx.config({
-              debug: false,
-              appId: data.data.appId,
-              timestamp: data.data.timestamp,
-              nonceStr: data.data.nonceStr,
-              signature: data.data.signature,
-              jsApiList: ['checkJsApi',
-                'onMenuShareAppMessage',
-                'onMenuShareTimeline',
-                'onMenuShareQQ',
-                'onMenuShareWeibo',
-                'scanQRCode'
-              ]
+    const u = navigator.userAgent, app = navigator.appVersion;
+    const isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+    if (isIOS) {
+      window.location.href = 'http://sms.youshuidaojia.com:9800/scan';
+      this.url = sessionStorage.getItem('url');
+    } else {
+      this.url = window.location.href;
+      this.appService.postScanFormData(this.appProperties.wechatShareInfoUrl,
+        {url: this.url}).subscribe(
+        data => {
+          wx.config({
+            debug: false,
+            appId: data.data.appId,
+            timestamp: data.data.timestamp,
+            nonceStr: data.data.nonceStr,
+            signature: data.data.signature,
+            jsApiList: ['checkJsApi',
+              'onMenuShareAppMessage',
+              'onMenuShareTimeline',
+              'onMenuShareQQ',
+              'onMenuShareWeibo',
+              'scanQRCode'
+            ]
+          });
+          wx.ready(function () {
+            wx.scanQRCode({
+              needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+              scanType: ['qrCode', 'barCode'], // 可以指定扫二维码还是一维码，默认二者都有
+              success: function (res) {
+                window.location.href = res.resultStr;
+              }
             });
-            wx.ready(function () {
-              console.log(123);
-              wx.scanQRCode({
-                needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
-                scanType: ['qrCode', 'barCode'], // 可以指定扫二维码还是一维码，默认二者都有
-                success: function (res) {
-                  console.log(res.resultStr); // 当needResult 为 1 时，扫码返回的结果
-                  window.location.href = res.resultStr;
-                }
-              });
-            });
-            wx.error(function (res) {
-              console.log(res);
-            });
-          },
-          error2 => {
-            console.log(error2);
-          }
-        );
-      }
+          });
+          wx.error(function (res) {
+            console.log(res);
+          });
+        },
+        error2 => {
+          console.log(error2);
+        }
+      );
+    }
   }
 
-  // 获取token
+  /**
+   * 2019-02-15
+   * @author maiziyao
+   * 获取token
+   */
   getCookies() {
     if (this.token === null || this.token === undefined || this.token === 'undefined') {
       const strCookie = document.cookie;
@@ -514,6 +471,11 @@ export class MainComponent implements OnInit {
     }
   }
 
+  /**
+   * 2019-02-15
+   * @author maiziyao
+   * 转换图片格式
+   */
   turnImg(item) {
     let img;
     if (item.length > 1) {
@@ -524,6 +486,11 @@ export class MainComponent implements OnInit {
     return img;
   }
 
+  /**
+   * 2019-02-15
+   * @author maiziyao
+   * 转换名字
+   */
   turn(item, name) {
     let variable;
     if (item.length > 1) {

@@ -20,13 +20,15 @@ export class ScanComponent implements OnInit {
   ngOnInit() {
     this.scan();
   }
-
+  /**
+   * 2019-02-16
+   * @author maiziyao
+   * 扫一扫
+   */
   scan() {
     this.appService.postScanFormData(this.appProperties.wechatShareInfoUrl,
-      // + '?url=http://sms.youshuidaojia.com:9800/user?vmCode=' + urlParse(window.location.href)['vmCode'],
       {url: window.location.href}).subscribe(
       data => {
-        console.log(data);
         wx.config({
           debug: false,
           appId: data.data.appId,
@@ -42,7 +44,6 @@ export class ScanComponent implements OnInit {
           ]
         });
         wx.ready(function () {
-          console.log(123);
           wx.scanQRCode({
             needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
             scanType: ['qrCode', 'barCode'], // 可以指定扫二维码还是一维码，默认二者都有

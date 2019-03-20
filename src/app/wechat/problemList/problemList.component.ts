@@ -48,8 +48,11 @@ export class ProblemListComponent implements OnInit {
     this.vmCode = urlParse(window.location.search)['vmCode'];
   }
 
-
-  // 投诉图片上传
+  /**
+   * 2019-02-16
+   * @author maiziyao
+   * 投诉图片上传
+   */
   uploadAdd(event: any) {
     const self = this;
     this.isSpinning = true;
@@ -73,6 +76,11 @@ export class ProblemListComponent implements OnInit {
     this.uploaderAdd.uploadAll();
   }
 
+  /**
+   * 2019-02-16
+   * @author maiziyao
+   * 选择故障申报类型
+   */
   submitSuggestion() {
     this.disable = true;
     if (this.suggestionType === undefined || this.suggestionType === null || this.suggestionType === '') {
@@ -120,6 +128,11 @@ export class ProblemListComponent implements OnInit {
       });
   }
 
+  /**
+   * 2019-02-16
+   * @author maiziyao
+   * 跳转页面
+   */
   goTo() {
     this.router.navigate(['problem'], {
       queryParams: {
@@ -128,6 +141,11 @@ export class ProblemListComponent implements OnInit {
     });
   }
 
+  /**
+   * 2019-02-16
+   * @author maiziyao
+   * 监听类型选择
+   */
   typeChange() {
     this.phone = undefined;
   }

@@ -51,6 +51,11 @@ export class OrderDetailsComponent implements OnInit {
     this.IsWeixinOrAlipay();
   }
 
+  /**
+   * 2019-02-16
+   * @author maiziyao
+   * 判断是否支付宝登陆
+   */
   IsWeixinOrAlipay() {
     const ua = window.navigator.userAgent.toLowerCase();
     if (ua.match(/MicroMessenger/i)) {
@@ -64,6 +69,11 @@ export class OrderDetailsComponent implements OnInit {
     }
   }
 
+  /**
+   * 2019-02-16
+   * @author maiziyao
+   * 获取数据
+   */
   getData(url) {
     this.appService.getDataOpen(url, {}, this.token).subscribe(
       data => {
@@ -83,6 +93,11 @@ export class OrderDetailsComponent implements OnInit {
     );
   }
 
+  /**
+   * 2019-02-16
+   * @author maiziyao
+   * 申请退款
+   */
   applyRefund(item) {
     this.payCode = item.payCode;
     this.orderItemList = item.itemList;
@@ -104,6 +119,11 @@ export class OrderDetailsComponent implements OnInit {
     );
   }
 
+  /**
+   * 2019-02-16
+   * @author maiziyao
+   * 支付
+   */
   pay(item) {
     if (this.isWechat === true) {
       this.appService.getDataOpen(this.appProperties.orderUnifiedOrderUrl,
@@ -131,7 +151,11 @@ export class OrderDetailsComponent implements OnInit {
 
   }
 
-  /*提交*/
+  /**
+   * 2019-02-16
+   * @author maiziyao
+   * 提交申请退款
+   */
   applySubmit() {
     if (this.refundReason === null || this.refundReason === undefined || this.refundReason === '') {
       alert('请输入退款原因!');
@@ -164,7 +188,11 @@ export class OrderDetailsComponent implements OnInit {
     }
   }
 
-  // 调用微信支付接口
+  /**
+   * 2019-02-16
+   * @author maiziyao
+   * 调用微信支付接口
+   */
   onBridgeUndefindeReady(data, item) {
     if (document.addEventListener) {
       document.addEventListener('WeixinJSBridgeReady', () => {
@@ -180,11 +208,20 @@ export class OrderDetailsComponent implements OnInit {
     }
   }
 
-  // 调用微信支付接口
+  /**
+   * 2019-02-16
+   * @author maiziyao
+   * 调用微信支付接口
+   */
   onBridgeReady(data, item) {
     this.test(data, item);
   }
 
+  /**
+   * 2019-02-16
+   * @author maiziyao
+   * 调用微信支付接口
+   */
   weixinJSBridge(data) {
     WeixinJSBridge.invoke(
       'getBrandWCPayRequest',
@@ -210,7 +247,11 @@ export class OrderDetailsComponent implements OnInit {
     );
   }
 
-  // 调用微信支付接口测试
+  /**
+   * 2019-02-16
+   * @author maiziyao
+   * 调用微信支付接口测试
+   */
   test(data, item) {
     wx.config({
       debug: false,
@@ -250,7 +291,11 @@ export class OrderDetailsComponent implements OnInit {
     });
   }
 
-  // 订单详情
+  /**
+   * 2019-02-16
+   * @author maiziyao
+   * 订单详情
+   */
   detail(ptCode) {
     this.detailVisible = true;
     this.appService.postDetailData(this.appProperties.findMachineHistoryUrl,
@@ -271,10 +316,20 @@ export class OrderDetailsComponent implements OnInit {
     );
   }
 
+  /**
+   * 2019-02-16
+   * @author maiziyao
+   * 关闭详情弹框
+   */
   closeDetail() {
     this.detailVisible = false;
   }
 
+  /**
+   * 2019-02-16
+   * @author maiziyao
+   * 跳转页面
+   */
   goTo() {
     this.router.navigate(['user'], {
       queryParams: {

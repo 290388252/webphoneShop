@@ -17,6 +17,11 @@ export class ShopGuideComponent implements OnInit {
 
   ngOnInit() {
   }
+  /**
+   * 2019-02-16
+   * @author maiziyao
+   * 跳转到首页
+   */
   goTo() {
     this.router.navigate(['main'], {
       queryParams: {

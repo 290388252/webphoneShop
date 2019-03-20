@@ -30,6 +30,7 @@ export class AppProperties {
   public IfApplayRefundUrl: string;
   public suggestionImgUrl: string;
   public wechatShareInfoUrl: string;
+  public prizeUrl: string;
 
   public shopUserMoneyUrl: string;
   public tblCustomerMyInfo: string;
@@ -44,15 +45,16 @@ export class AppProperties {
 
   constructor() {
     // Public
-    // this.appUrl = 'http://192.168.0.113:6662/ys_sms';
-     this.appUrl = 'http://47.106.92.82:6662/ys_sms';
+    this.appUrl = 'http://47.106.92.82:6662/ys_sms';
+    // this.appUrl = 'http://192.168.0.108:6662/ys_sms';
     this.adminUrl = 'http://119.23.233.123:6662/ys_admin';
-    // this.adminUrl = 'http://192.168.0.106:6662/ys_admin';
+    // this.adminUrl = 'http://192.168.0.108:6662/ys_admin';
+    // this.appUrl = 'http://47.106.92.82:6662/ys_sms';
     this.imgUrl = this.adminUrl + '/files/';
     this.isClosedUrl = this.appUrl + '/wechat/isClosed';
     this.adminOauth2Url = this.appUrl + '/admin/oauth2';
     this.machineInfoGetCompanyIdUrl = this.appUrl + '/machineInfo/getCompanyId?vmCode=';
-    this.machineSuggestionUrl = this.appUrl + '/tblCustomerComplain/add';
+    this.machineSuggestionUrl = this.adminUrl + '/tblCustomerComplain/add';
     this.shopImgUrl = this.adminUrl + '/shoppingGoodsImg/';
     // WeChat
     this.indexListUrl = this.appUrl + '/index/listWay';
@@ -67,21 +69,31 @@ export class AppProperties {
     this.orderUnifiedOrderUrl = this.appUrl + '/order/unifiedOrder';
     this.nonePassWordPayUrl = this.appUrl + '/wechat/entrustweb';
     this.findMachineHistoryUrl = this.appUrl + '/order/findMachineHistory';
-    // this.couponAvailable = this.appUrl + '/coupon/available';
-    this.couponAvailable = this.appUrl + '/tblCustomer/myCoupon';
-    this.shoppingWaterCouponUrl = this.appUrl + '/tblCustomer/myCarryWaterVouchers';
+    // this.couponAvailable = this.appUrl + '/tblCustomer/myCoupon'; ??
+    this.couponAvailable = this.adminUrl + '/frontCoupon/myList';
+    this.couponAvailable = this.adminUrl + '/frontCoupon/myList';
+    // this.shoppingWaterCouponUrl = this.appUrl + '/tblCustomer/myCarryWaterVouchers';  ??
+    this.shoppingWaterCouponUrl = this.adminUrl + '/carryWaterVouchersCustomer/myCarryWaterVouchers';
     this.applyRefundUrl = this.appUrl + '/refundApplication/do';
     this.IfApplayRefundUrl = this.appUrl + '/refundApplication/get';
     this.shopUserMoneyUrl = this.appUrl + '/member/findBean';
-    this.tblCustomerMyInfo  = this.appUrl + '/tblCustomer/myInfo';
-    this.tblCustomerMyInviteRewards  = this.appUrl + '/tblCustomer/myInviteRewards';
-    this.tblCustomerMyDeclaration  = this.appUrl + '/tblCustomer/myDeclaration';
-    this.tblCustomerComplainReplyIsReplyUrl  = this.appUrl + '/tblCustomerComplainReply/isReply';
-    this.tblCustomerComplainReplyAddUrl  = this.appUrl + '/tblCustomerComplainReply/add';
-    this.tblCustomerComplainReplyDetails = this.appUrl + '/tblCustomerComplainReply/replyDetails';
+    // this.tblCustomerMyInfo  = this.appUrl + '/tblCustomer/myInfo'; ??
+    this.tblCustomerMyInfo = this.adminUrl + '/tblCustomerWx/getBean';
+    // this.tblCustomerMyInviteRewards  = this.appUrl + '/tblCustomer/myInviteRewards'; ??
+    this.tblCustomerMyInviteRewards  = this.adminUrl + '/tblCustomerWx/myInviteRewards';
+    // this.tblCustomerMyDeclaration  = this.appUrl + '/tblCustomer/myDeclaration'; ??
+    this.tblCustomerMyDeclaration  = this.adminUrl + '/tblCustomerComplain/myDeclaration';
+    // this.tblCustomerComplainReplyIsReplyUrl  = this.appUrl + '/tblCustomerComplainReply/isReply'; ??
+    this.tblCustomerComplainReplyIsReplyUrl  = this.adminUrl + '/complainReply/isReply';
+    // this.tblCustomerComplainReplyAddUrl  = this.appUrl + '/tblCustomerComplainReply/add'; ??
+    this.tblCustomerComplainReplyAddUrl  = this.adminUrl + '/complainReply/add';
+    // this.tblCustomerComplainReplyDetails = this.appUrl + '/tblCustomerComplainReply/replyDetails'; ??
+    this.tblCustomerComplainReplyDetails = this.adminUrl + '/complainReply/replyDetails';
 
     this.suggestionImgUrl = this.adminUrl + '/complainImg/';
     this.wechatShareInfoUrl = this.appUrl + '/wechat/shareInfo';
+    // this.prizeUrl = this.appUrl + '/game/getCusPrize'; ??
+    this.prizeUrl = this.adminUrl + '/game/getCusPrize';
     this.shopPrepaidAddUrl = this.appUrl + '/tblCustomer/addOrder';
     this.shopPrepaidBuyUrl = this.appUrl + '/order/payBalance';
     this.alipayWapPayUrl = this.appUrl + '/alipay/wapPay?payRecordId=';

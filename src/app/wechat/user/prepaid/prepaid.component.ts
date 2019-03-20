@@ -47,19 +47,22 @@ export class PrepaidComponent implements OnInit {
       exp.setTime(exp.getTime() + 1000 * 60 * 60 * 24 * 365 * 10);
       document.cookie = 'token=' + urlParse(window.location.href)['token'] + ';expires=' + exp.toUTCString();
     }
-    console.log(this.token);
     this.token = getToken();
     this.prepaidMoney = undefined;
     this.judgeFriend = false;
     this.judgeButton = '点击帮好友充值';
-    this.isFocusA = true;
-    this.isFocusB = false;
-    this.errorSumit = false;
+    this.focusMoney('isFocusA');
     this.correct = false;
     this.getDate();
     this.IsWeixinOrAlipay();
+    this.endMoney = 500;
   }
 
+  /**
+   * 2019-02-16
+   * @author maiziyao
+   * 判断微信还是支付宝登陆
+   */
   IsWeixinOrAlipay() {
     const ua = window.navigator.userAgent.toLowerCase();
     if (ua.match(/MicroMessenger/i)) {
@@ -73,6 +76,11 @@ export class PrepaidComponent implements OnInit {
     }
   }
 
+  /**
+   * 2019-02-16
+   * @author maiziyao
+   * 获取用户余额积分信息
+   */
   getDate() {
     this.appService.postAliData(this.appProperties.tblCustomerMyInfo, {}, this.token).subscribe(
       data => {
@@ -88,18 +96,11 @@ export class PrepaidComponent implements OnInit {
     );
   }
 
-  // numChange(val) {
-  //   if (Number(this.prepaidMoney) > 0) {
-  //     this.errorSumit = false;
-  //     this.errorNum = false;
-  //   } else if (this.prepaidMoney === undefined || this.prepaidMoney === '' || this.prepaidMoney === null) {
-  //     this.errorSumit = true;
-  //     this.errorNum = false;
-  //   } else {
-  //     this.errorSumit = true;
-  //     this.errorNum = true;
-  //   }
-  // }
+  /**
+   * 2019-02-16
+   * @author maiziyao
+   * 用户点击输入其他金额
+   */
   keyupMoney() {
     if (this.prepaidMoney !== undefined && this.prepaidMoney !== null && this.prepaidMoney !== '') {
       this.errorNum = false;
@@ -110,6 +111,11 @@ export class PrepaidComponent implements OnInit {
     }
   }
 
+  /**
+   * 2019-02-16
+   * @author maiziyao
+   * 用户点击500、200、100、50金额按钮
+   */
   focusMoney(val) {
     if (val === 'isFocusA') {
       this.isFocusA = true;
@@ -152,6 +158,11 @@ export class PrepaidComponent implements OnInit {
     }
   }
 
+  /**
+   * 2019-02-16
+   * @author maiziyao
+   * 跳转页面
+   */
   goTo(flag) {
     if (flag === 'userCenter') {
       this.router.navigate(['user'], {
@@ -168,6 +179,11 @@ export class PrepaidComponent implements OnInit {
     }
   }
 
+  /**
+   * 2019-02-16
+   * @author maiziyao
+   * 选择本账号充值或者帮好友充值
+   */
   prepaidFriend() {
     this.judgeFriend = !this.judgeFriend;
     if (this.judgeFriend === true) {
@@ -189,9 +205,13 @@ export class PrepaidComponent implements OnInit {
     }
   }
 
+  /**
+   * 2019-02-16
+   * @author maiziyao
+   * 充值提交，验证手机号是否为优水用户
+   */
   prepaidComfirm() {
     let user;
-    console.log(this.judgeFriend === false);
     if (this.judgeFriend === false) {
       this.endPhone = null;
       user = '本账号';
@@ -207,13 +227,13 @@ export class PrepaidComponent implements OnInit {
       user = '好友';
     }
     if (this.isFocusA === true && this.isFocusB === false && this.isFocusD === false && this.isFocusE === false) {
-      this.endMoney = 200;
+      this.endMoney = 500;
     } else if (this.isFocusA === false && this.isFocusB === true && this.isFocusD === false && this.isFocusE === false) {
-      this.endMoney = 100;
+      this.endMoney = 200;
     } else if (this.isFocusA === false && this.isFocusB === false && this.isFocusD === true && this.isFocusE === false) {
-      this.endMoney = 50;
+      this.endMoney = 100;
     } else if (this.isFocusA === false && this.isFocusB === false && this.isFocusD === false && this.isFocusE === true) {
-      this.endMoney = 20;
+      this.endMoney = 50;
     } else {
       this.endMoney = this.prepaidMoney;
       if (Number(this.prepaidMoney) < 0) {
@@ -229,9 +249,13 @@ export class PrepaidComponent implements OnInit {
       okText: '确定支付',
       onOk: () => this.prepaidPay()
     });
-    console.log(this.endPhone);
   }
 
+  /**
+   * 2019-02-16
+   * @author maiziyao
+   * 二次确认充值，支付
+   */
   prepaidPay() {
     if (this.endMoney !== '' && this.endMoney !== null && this.endMoney !== undefined) {
       this.appService.postAliData(this.appProperties.shopPrepaidAddUrl, {
@@ -283,6 +307,11 @@ export class PrepaidComponent implements OnInit {
     }
   }
 
+  /**
+   * 2019-02-16
+   * @author maiziyao
+   * wechat支付
+   */
   onBridgeUndefindeReady(data) {
     if (document.addEventListener) {
       document.addEventListener('WeixinJSBridgeReady', () => {
@@ -298,12 +327,21 @@ export class PrepaidComponent implements OnInit {
     }
   }
 
+  /**
+   * 2019-02-16
+   * @author maiziyao
+   * 调用微信支付接口
+   */
   // 调用微信支付接口
   onBridgeReady(data) {
     this.test(data);
   }
 
-  // 调用微信支付接口测试
+  /**
+   * 2019-02-16
+   * @author maiziyao
+   * 调用微信支付接口测试
+   */
   test(data) {
     wx.config({
       debug: false,

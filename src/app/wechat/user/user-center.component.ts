@@ -27,6 +27,11 @@ export class UserCenterComponent implements OnInit {
     this.getDate();
   }
 
+  /**
+   * 2019-02-16
+   * @author maiziyao
+   * 判断wechat登陆还是支付宝，获取个人信息
+   */
   getDate() {
     this.appService.postAliData(this.appProperties.tblCustomerMyInfo, {}, this.token).subscribe(
       data => {
@@ -52,23 +57,21 @@ export class UserCenterComponent implements OnInit {
     );
   }
 
-// 新用户登陆
+  /**
+   * 2019-02-16
+   * @author maiziyao
+   * 新用户登陆
+   */
   login() {
     this.appService.getData(this.appProperties.wechatOauth2Url, {vmCode: urlParse(window.location.href)['vmCode']}).subscribe(
       data => {
-        console.log(data);
         let newData;
-        // const wlhUrl = 'http://youshui.natapp1.cc/main';
-        // const wlhUrl = window.location.href;
-        // const newWlhUrl = window.location.href.replace('main', 'register');
-        // const newWlhUrl = wlhUrl.replace(wlhUrl.substring(wlhUrl.indexOf('main'), wlhUrl.length), 'register');
         const wlhUrl = '/main?vmCode=' + urlParse(window.location.href)['vmCode'];
         const newWlhUrl = '/register?vmCode=' + urlParse(window.location.href)['vmCode'];
         const state = urlParse(data.data)['state'];
         if (typeof(data.data) === 'string' && data.data.length > 0) {
           newData = data.data.replace(data.data.substring(data.data.indexOf('state=') + 6, data.data.length),
             newWlhUrl + '-' + wlhUrl + '-' + state);
-          console.log(newData);
           window.location.href = newData;
         }
       },
@@ -78,11 +81,14 @@ export class UserCenterComponent implements OnInit {
     );
   }
 
-  // 支付宝登陆
+  /**
+   * 2019-02-16
+   * @author maiziyao
+   * 支付宝登陆
+   */
   noTokenOath() {
     this.appService.getData(this.appProperties.aliGetUserIdUrl + '?vmCode=' + urlParse(window.location.search)['vmCode'], '').subscribe(
       data2 => {
-        console.log(data2);
         window.location.href = data2.returnObject;
       },
       error2 => {
@@ -91,6 +97,11 @@ export class UserCenterComponent implements OnInit {
     );
   }
 
+  /**
+   * 2019-02-16
+   * @author maiziyao
+   * 跳转页面（查看更多订单、余额、我的订单、我的存水、我的优惠券、我的提货券、我的购物车、我的地址、附近售货机、我的故障申报、砍价免费拿）
+   */
   detail(flag) {
     if (flag === 1) {
       this.appService.postAliData(this.appProperties.tblCustomerMyInfo, {}, this.token).subscribe(
@@ -99,7 +110,6 @@ export class UserCenterComponent implements OnInit {
             alert(data.message);
             return;
           } else {
-            // window.location.href = 'http://sms.youshuidaojia.com:9800/prepaid?vmCode=' + urlParse(window.location.href)['vmCode'] + '&token=' + this.token;
             this.router.navigate(['prepaid'], {
               queryParams: {
                 vmCode: urlParse(window.location.search)['vmCode']
@@ -135,21 +145,16 @@ export class UserCenterComponent implements OnInit {
       });
     } else if (flag === 6) {
       window.location.href = 'tel://4008858203';
-      // this.router.navigate(['cMain/shopCar']);
     } else if (flag === 7) {
       this.router.navigate(['myDeclaration']);
     } else if (flag === 8) {
-      // window.location.href = 'http://localhost:80/shareGzh?token=' + this.token;
       window.location.href = 'http://sms.youshuidaojia.com/shareGzh?token=' + this.token;
+    } else if (flag === 9) {
+      this.router.navigate(['myPrize'], {
+        queryParams: {
+          vmCode: urlParse(window.location.search)['vmCode'],
+        }
+      });
     }
-    // else if (flag === 9) {
-    //   window.location.href = 'http://localhost:81/bargainList?vmCode=' + urlParse(window.location.search)['vmCode'];
-    //   // window.location.href = 'http://sms.youshuidaojia.com/shareGzh?token=' + this.token;
-    //   // this.router.navigate(['bargainList'], {
-    //   //   queryParams: {
-    //   //     vmCode: urlParse(window.location.search)['vmCode'],
-    //   //   }
-    //   // });
-    // }
   }
 }

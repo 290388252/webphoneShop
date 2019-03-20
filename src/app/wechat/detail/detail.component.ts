@@ -1,9 +1,10 @@
 import {Component, AfterViewChecked, OnInit} from '@angular/core';
-import { Router } from '@angular/router';
-import { ActivatedRoute } from '@angular/router';
+import {Router} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {AppService} from '../../app-service';
 import {AppProperties} from '../../app.properties';
 import {urlParse} from '../../utils/util';
+
 declare var wx: any;
 declare var WeixinJSBridge: any;
 
@@ -12,7 +13,7 @@ declare var WeixinJSBridge: any;
   templateUrl: './detail.component.html',
   styleUrls: ['./detail.component.css']
 })
-export class DetailComponent implements OnInit , AfterViewChecked {
+export class DetailComponent implements OnInit, AfterViewChecked {
   public title: string;
   public id: any;
   public totalPrice = 0;
@@ -31,8 +32,9 @@ export class DetailComponent implements OnInit , AfterViewChecked {
   public refundPrice;
   public refundReason;
   public maxPrice;
+
   constructor(private router: Router, private activatedRoute: ActivatedRoute, private appProperties: AppProperties,
-  private appService: AppService) {
+              private appService: AppService) {
     this.list = [];
   }
 
@@ -44,21 +46,23 @@ export class DetailComponent implements OnInit , AfterViewChecked {
     } else {
       this.token = urlParse(window.location.search)['token'];
     }
-    console.log(this.id);
-    console.log(this.token);
     this.getData(this.appProperties.findAllUserOrderUrl);
   }
-  // 获取订单列表
+
+  /**
+   * 2019-02-15
+   * @author maiziyao
+   * 获取订单列表
+   */
   getData(url) {
     this.appService.getDataOpen(url, {}, this.token).subscribe(
       data => {
-        console.log(data);
         if (data) {
-            data.forEach((item => {
-                  this.totalPrice += item.price;
-                  this.totalPrice = Math.floor(this.totalPrice * 100) / 100;
-                  this.list.push(item);
-              }));
+          data.forEach((item => {
+            this.totalPrice += item.price;
+            this.totalPrice = Math.floor(this.totalPrice * 100) / 100;
+            this.list.push(item);
+          }));
         } else if (data) {
           alert(data.message);
         }
@@ -70,24 +74,30 @@ export class DetailComponent implements OnInit , AfterViewChecked {
     this.appService.postAliData(this.appProperties.couponAvailable + '?vmCode=' + urlParse(window.location.search)['vmCode'],
       '', this.token).subscribe(
       data => {
-        console.log('123');
-        console.log(data);
-        // if (data.status === 1) {
-          this.couponEffectiveList = data.returnObject;
-        // } else if (data.status !== 1) {
-        // }
+        this.couponEffectiveList = data.returnObject;
       },
       error => {
         console.log(error);
       }
     );
   }
+
+  /**
+   * 2019-02-15
+   * @author maiziyao
+   * 转换名字
+   */
   getItem(list, name) {
     if (list.length > 1) {
       return list[1][name];
     }
   }
-  // 适配背景px
+
+  /**
+   * 2019-02-15
+   * @author maiziyao
+   * 适配背景px
+   */
   ngAfterViewChecked(): void {
     if (document.documentElement.offsetHeight > document.getElementById('content').clientHeight) {
       document.getElementById('containers').style.height = document.documentElement.offsetHeight + 'px';
@@ -95,10 +105,21 @@ export class DetailComponent implements OnInit , AfterViewChecked {
       document.getElementById('containers').style.height = document.getElementById('content').clientHeight + 50 + 'px';
     }
   }
+
+  /**
+   * 2019-02-15
+   * @author maiziyao
+   * 转换
+   */
   nzSpan(flag) {
     return flag !== '10002' ? 24 : 20;
   }
-  // 支付
+
+  /**
+   * 2019-02-15
+   * @author maiziyao
+   * 支付
+   */
   pay(item) {
     this.appService.getDataOpen(this.appProperties.orderUnifiedOrderUrl,
       {
@@ -106,7 +127,6 @@ export class DetailComponent implements OnInit , AfterViewChecked {
         url: window.location.href.split('#')[0]
       }, this.token).subscribe(
       data => {
-        console.log(data);
         if (typeof(WeixinJSBridge) === 'undefined') {
           this.onBridgeUndefindeReady(data, item);
         } else {
@@ -118,16 +138,21 @@ export class DetailComponent implements OnInit , AfterViewChecked {
       }
     );
   }
+
+  /**
+   * 2019-02-15
+   * @author maiziyao
+   * 申请退款
+   */
   applyRefund(item) {
     this.payCode = item.payCode;
     this.orderItemList = item.itemList;
     this.maxPrice = item.totalPrice;
     this.refundPrice = this.maxPrice;
     this.appService.postFormData(this.appProperties.IfApplayRefundUrl, {
-        payCode: this.payCode,
-      }, this.token).subscribe(
+      payCode: this.payCode,
+    }, this.token).subscribe(
       data => {
-        console.log(data);
         if (data.status === 0) {
           this.id = '3';
         } else {
@@ -139,7 +164,12 @@ export class DetailComponent implements OnInit , AfterViewChecked {
       }
     );
   }
-  /*提交*/
+
+  /**
+   * 2019-02-15
+   * @author maiziyao
+   * 提交退款
+   */
   applySubmit() {
     if (this.refundReason === null || this.refundReason === undefined || this.refundReason === '') {
       alert('请输入退款原因!');
@@ -171,7 +201,12 @@ export class DetailComponent implements OnInit , AfterViewChecked {
       );
     }
   }
-  // 调用微信支付接口
+
+  /**
+   * 2019-02-15
+   * @author maiziyao
+   * 调用微信支付接口
+   */
   onBridgeUndefindeReady(data, item) {
     if (document.addEventListener) {
       document.addEventListener('WeixinJSBridgeReady', () => {
@@ -186,10 +221,21 @@ export class DetailComponent implements OnInit , AfterViewChecked {
       });
     }
   }
-  // 调用微信支付接口
+
+  /**
+   * 2019-02-15
+   * @author maiziyao
+   * 调用微信支付接口
+   */
   onBridgeReady(data, item) {
-   this.test(data, item);
+    this.test(data, item);
   }
+
+  /**
+   * 2019-02-15
+   * @author maiziyao
+   * 微信支付
+   */
   weixinJSBridge(data) {
     WeixinJSBridge.invoke(
       'getBrandWCPayRequest',
@@ -201,7 +247,7 @@ export class DetailComponent implements OnInit , AfterViewChecked {
         signType: 'SHA1',
         paySign: data.signature
       },
-      function(res) {
+      function (res) {
         if (res.err_msg === 'get_brand_wcpay_request:ok') {
           alert('支付成功');
           // window.location.reload();
@@ -214,7 +260,12 @@ export class DetailComponent implements OnInit , AfterViewChecked {
       }
     );
   }
-  // 调用微信支付接口测试
+
+  /**
+   * 2019-02-15
+   * @author maiziyao
+   *调用微信支付接口测试
+   */
   test(data, item) {
     wx.config({
       debug: false,
@@ -224,7 +275,7 @@ export class DetailComponent implements OnInit , AfterViewChecked {
       signature: data.config.signature,
       jsApiList: ['checkJsApi',
         'chooseWXPay',
-        ]
+      ]
     });
     wx.ready(() => {
       wx.chooseWXPay({
@@ -253,7 +304,12 @@ export class DetailComponent implements OnInit , AfterViewChecked {
       });
     });
   }
-  // 订单详情
+
+  /**
+   * 2019-02-15
+   * @author maiziyao
+   * 订单详情
+   */
   detail(ptCode) {
     this.detailVisible = true;
     this.appService.postDetailData(this.appProperties.findMachineHistoryUrl,
@@ -261,9 +317,7 @@ export class DetailComponent implements OnInit , AfterViewChecked {
         payCodeOrName: ptCode
       }).subscribe(
       data => {
-        console.log(data);
         if (data.status === 1) {
-          console.log(data.returnObject);
           this.doorNO = data.returnObject.doorNO;
           this.num = data.returnObject.num;
           this.openedTime = data.returnObject.openedTime;
@@ -275,12 +329,22 @@ export class DetailComponent implements OnInit , AfterViewChecked {
       }
     );
   }
-  // 关闭详情
+
+  /**
+   * 2019-02-15
+   * @author maiziyao
+   * 关闭详情
+   */
   closeDetail() {
     this.detailVisible = false;
   }
-  // 获取token
-  getCookies () {
+
+  /**
+   * 2019-02-15
+   * @author maiziyao
+   * 获取token
+   */
+  getCookies() {
     if (this.token === null || this.token === undefined || this.token === 'undefined') {
       const strCookie = document.cookie;
       const arrCookie = strCookie.split(';');
@@ -292,6 +356,12 @@ export class DetailComponent implements OnInit , AfterViewChecked {
       }
     }
   }
+
+  /**
+   * 2019-02-15
+   * @author maiziyao
+   * 转换日期
+   */
   toDate(date) {
     return new Date(date.substring(0, 10)).getFullYear() + '-' + (new Date(date.substring(0, 10)).getMonth() + 1) + '-' + new Date(date.substring(0, 10)).getDate();
   }

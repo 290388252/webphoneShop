@@ -15,6 +15,7 @@ const routes: Routes = [/*
   {path: 'problemList', loadChildren: './wechat/problemList/problemList.module#ProblemListModule'},
   {path: 'coupon', loadChildren: './wechat/user/coupon/coupon.module#CouponModule'},
   {path: 'waterCoupon', loadChildren: './wechat/user/waterCoupon/waterCoupon.module#WaterCouponModule'},
+  {path: 'myPrize', loadChildren: './wechat/user/myPrize/myPrize.module#MyPrizeModule'},
   {path: 'orderDetails', loadChildren: './wechat/user/orderDetails/orderDetails.module#OrderDetailsModule'},
   {path: 'myDeclaration', loadChildren: './wechat/myDeclaration/myDeclaration.module#MyDeclarationModule'},
   {path: 'myInviteRewards', loadChildren: './wechat/myInviteRewards/myInviteRewards.module#MyInviteRewardsModule'},

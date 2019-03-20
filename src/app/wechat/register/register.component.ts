@@ -39,15 +39,20 @@ export class RegisterComponent implements OnInit {
       password: [null, [Validators.required]]
     });
     this.openId = getOpenId();
-    console.log(getOpenId());
   }
-
-  // 手机点击小键盘时获取焦点更改屏幕高度
+  /**
+   * 2019-02-16
+   * @author maiziyao
+   * 手机点击小键盘时获取焦点更改屏幕高度
+   */
   focusCode() {
     document.getElementById('containers').style.height = (document.documentElement.offsetWidth + 50) + 'px';
   }
-
-  // 提交表单数据
+  /**
+   * 2019-02-16
+   * @author maiziyao
+   * 提交表单数据
+   */
   _submitForm() {
     for (const i in this.validateForm.controls) {
       if (true) {
@@ -66,7 +71,6 @@ export class RegisterComponent implements OnInit {
           if (data.code !== 0) {
             alert('登陆失败');
           } else if (data.code === 0) {
-            console.log(data);
             const exp = new Date();
             // exp.setTime(exp.getTime() + 1000 * 60 * 60);
             exp.setTime(exp.getTime() + 1000 * 60 * 60 * 24 * 365 * 10);
@@ -89,14 +93,16 @@ export class RegisterComponent implements OnInit {
           console.log(error);
         }
       );
-      console.log(this.validateForm.controls.phoneForm.value);
-      console.log(this.validateForm.controls.password.value);
     } else {
       alert('请输入手机号码');
     }
   }
 
-  // 发送验证码
+  /**
+   * 2019-02-16
+   * @author maiziyao
+   * 发送验证码
+   */
   sendCode(e: TouchEvent) {
     e.preventDefault();
     if (checkPhone(this.phone)) {

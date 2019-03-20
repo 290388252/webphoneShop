@@ -22,6 +22,11 @@ export class MyInviteRewardsComponent implements OnInit {
     this.token = getToken();
     this.getDate();
   }
+  /**
+   * 2019-02-16
+   * @author maiziyao
+   * 获取邀请记录以及奖励
+   */
   getDate() {
     this.appService.postAliData(this.appProperties.tblCustomerMyInviteRewards, {}, this.token).subscribe(
       data => {

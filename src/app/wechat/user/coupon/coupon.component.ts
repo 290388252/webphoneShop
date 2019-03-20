@@ -28,25 +28,6 @@ export class CouponComponent implements OnInit {
   }
 
   ngOnInit() {
-    // if (this.token === null || this.token === undefined || this.token === 'undefined') {
-    //   if (urlParse(window.location.search)['coupon'] === 1 || urlParse(window.location.search)['coupon'] === '1') {
-    //     this.token = getToken();
-    //   } else {
-    //     this.appService.getData(this.appProperties.adminGetShopTokenUrl, null).subscribe(
-    //       data => {
-    //         if (data.status === 1) {
-    //           window.location.href = data.returnObject.url;
-    //         } else if (data.status === 2) {
-    //           this.token = data.returnObject.token;
-    //           this.coupon(2);
-    //         }
-    //       },
-    //       error => {
-    //         console.log(error);
-    //       }
-    //     );
-    //   }
-    // }
     this.coupon(2);
     this.effective = true;
     this.effective ? this.empty = false : this.empty = true;
@@ -55,6 +36,11 @@ export class CouponComponent implements OnInit {
     }
   }
 
+  /**
+   * 2019-02-16
+   * @author maiziyao
+   * 选择优惠券状态
+   */
   choose(flag) {
     if (flag === 3) {
       // 过期
@@ -76,9 +62,13 @@ export class CouponComponent implements OnInit {
       this.coupon(2);
     }
   }
-
+  /**
+   * 2019-02-16
+   * @author maiziyao
+   * 根据优惠券状态获取优惠券list
+   */
   coupon(state) {
-    this.appService.postAliData(this.appProperties.couponAvailable, {state: state}, this.token).subscribe(
+    this.appService.getAliData(this.appProperties.couponAvailable, {state: state}, this.token).subscribe(
       data => {
         this.status = data.status;
         // if (data.returnObject !== null) {
@@ -104,18 +94,27 @@ export class CouponComponent implements OnInit {
       }
     );
   }
-
+  /**
+   * 2019-02-16
+   * @author maiziyao
+   * 转换优惠方式
+   */
   text(item) {
     return item.money === 0 ? '固定减扣券' : '满' + item.money + '元使用';
   }
-
+  /**
+   * 2019-02-16
+   * @author maiziyao
+   * 转换优惠方式
+   */
   textTwo(item) {
     return item.money === 0 ? '可直接使用券' : item.money + '元套餐抵扣券';
   }
-
-  ok() {
-  }
-
+  /**
+   * 2019-02-16
+   * @author maiziyao
+   * 判断优惠券仅限特殊商品使用还是全品类商品都可以使用
+   */
   turnToBind(item, useWhere) {
     let isShow;
     if (item === 1) {
@@ -134,10 +133,19 @@ export class CouponComponent implements OnInit {
       return isShow;
     }
   }
-
+  /**
+   * 2019-02-16
+   * @author maiziyao
+   * 时间格式转换
+   */
   toDate(date) {
     return new Date(date).getFullYear() + '.' + (new Date(date).getMonth() + 1) + '.' + new Date(date).getDate();
   }
+  /**
+   * 2019-02-16
+   * @author maiziyao
+   * 页面跳转
+   */
   goTo() {
     this.router.navigate(['user'], {
       queryParams: {

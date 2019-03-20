@@ -21,7 +21,11 @@ export class ProtocolComponent implements OnInit {
 
   ngOnInit() {
   }
-
+  /**
+   * 2019-02-16
+   * @author maiziyao
+   * 返回到充值页面
+   */
   goTo(flag) {
     if (flag === 'prepaid') {
       this.router.navigate(['prepaid']);

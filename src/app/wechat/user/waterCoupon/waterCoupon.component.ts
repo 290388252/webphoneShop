@@ -36,6 +36,11 @@ export class WaterCouponComponent implements OnInit {
     }
   }
 
+  /**
+   * 2019-02-16
+   * @author maiziyao
+   * 选择提水券状态
+   */
   choose(flag) {
     if (flag === 3) {
       // 过期
@@ -58,6 +63,11 @@ export class WaterCouponComponent implements OnInit {
     }
   }
 
+  /**
+   * 2019-02-16
+   * @author maiziyao
+   * 根据选择的提水券状态获取提水券list
+   */
   coupon(state) {
     this.appService.postAliData(this.appProperties.shoppingWaterCouponUrl, {state: state}, this.token).subscribe(
       data => {
@@ -86,9 +96,20 @@ export class WaterCouponComponent implements OnInit {
     );
   }
 
+  /**
+   * 2019-02-16
+   * @author maiziyao
+   * 转换日期格式
+   */
   toDate(date) {
     return new Date(date).getFullYear() + '.' + (new Date(date).getMonth() + 1) + '.' + new Date(date).getDate();
   }
+
+  /**
+   * 2019-02-16
+   * @author maiziyao
+   * 展开或关闭提水券说明
+   */
   openInstructions(id) {
     if (this.effectiveList !== null) {
       for (let i = 0; i <= this.effectiveList.length; i++) {
@@ -98,6 +119,12 @@ export class WaterCouponComponent implements OnInit {
       }
     }
   }
+
+  /**
+   * 2019-02-16
+   * @author maiziyao
+   * 跳转页面
+   */
   goTo() {
     this.router.navigate(['user'], {
       queryParams: {
