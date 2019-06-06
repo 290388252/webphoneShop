@@ -46,7 +46,8 @@ export class UserCenterComponent implements OnInit {
           }
         } else {
           this.nickName = data.returnObject.nickname;
-          this.headImgUrl = data.returnObject.headImgUrl;
+          this.headImgUrl = data.returnObject.headimgurl;
+          console.log(this.headImgUrl);
           this.integral = data.returnObject.integral;
           this.userBalance = data.returnObject.userBalance;
         }

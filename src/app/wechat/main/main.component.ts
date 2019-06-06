@@ -408,7 +408,8 @@ export class MainComponent implements OnInit {
    * @author maiziyao
    * 扫一扫
    */
-  scan() {
+  scan(e) {
+    e.preventDefault();
     const u = navigator.userAgent, app = navigator.appVersion;
     const isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
     if (isIOS) {
